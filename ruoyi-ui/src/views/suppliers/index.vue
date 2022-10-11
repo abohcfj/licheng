@@ -6,8 +6,7 @@
           type="primary"
           icon="el-icon-plus"
           size="mini"
-          @click="handleAdd"
-          v-hasPermi="['system:post:add']"
+          @click="$refs.editForm.handleAdd()"
         >添加供应商</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -16,8 +15,7 @@
           plain
           icon="el-icon-document-add"
           size="mini"
-          @click="handleAdd"
-          v-hasPermi="['system:post:add']"
+          @click="$refs.importForm.openImport()"
         >导入供应商</el-button>
       </el-col>
       
@@ -29,7 +27,6 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:post:remove']"
         >删除</el-button>
       </el-col>
       
@@ -49,7 +46,6 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:post:export']"
         >导出</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -57,27 +53,29 @@
           type="success"
           plain
           size="mini"
+          @click="$refs.audit.getInfo()"
         >审核</el-button>
       </el-col>
       <right-toolbar :search="false" :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="postList" @selection-change="handleSelectionChange" ref="filterTable">
+    <el-table v-loading="loading" :data="supplierList" @selection-change="handleSelectionChange" ref="filterTable">
       <el-table-column type="selection" width="45" align="center" />
-      <el-table-column label="品线" align="center" prop="line" >
+      <el-table-column label="品线" align="center" prop="lineString" >
+        <!-- TODO:远程搜索数据-->
         <template #header>
             <el-popover placement="bottom" title="搜索" width="200" trigger="click" v-model="visible">
                 <div slot="reference" class="search-header">
                     <span class="search-title">品线</span>
                     <i class="search-icon el-icon-search"></i>
                 </div>
-                <el-select size="mini" v-model="queryParams.line" clearable  filterable allow-create default-first-option>
+                <el-select size="mini" v-model="queryParams.lineString" clearable  filterable allow-create default-first-option>
                     <el-option
-                        v-for="item in filterData('line')" :key="item.value" :label="item.label" :value="item.value">
+                        v-for="item in filterData('lineString')" :key="item.value" :label="item.label" :value="item.value">
                     </el-option>
                 </el-select>
                 <div style="text-align: right; margin: 0;margin-top:10px">
-                    <el-button size="mini" type="text" @click="handleCanleFilter('line')">取消</el-button>
+                    <el-button size="mini" type="text" @click="handleCanleFilter('lineString')">取消</el-button>
                     <el-button type="mini" size="text" @click="handleQuery">确定</el-button>
                 </div>
             </el-popover>
@@ -154,18 +152,16 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text">详情</el-button>
+          <el-button size="mini" type="text" @click="$refs.detials.getInfo(scope.row.id)">详情</el-button>
           <el-button
             size="mini"
             type="text"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:post:edit']"
+            @click="$refs.editForm.handleUpdate(scope.row)"
           >编辑</el-button>
           <el-button
             size="mini"
             type="text"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:post:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -180,84 +176,30 @@
       @pagination="getList"
     />
     <!-- 添加或修改岗位对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
-        <el-row>
-            <el-col :span="11">
-                <span class="formTitle"> 供应商基本信息</span>
-                <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-                  <el-form-item label="品线" prop="line">
-                    <el-input v-model="form.line" placeholder="请输入品线" />
-                  </el-form-item>
-                  <el-form-item label="供应商" prop="name">
-                    <el-input v-model="form.postCode" placeholder="请输入编码名称" />
-                  </el-form-item>
-                    <el-form-item label="供应商代码" prop="code">
-                    <el-input v-model="form.postCode" placeholder="请输入编码名称" />
-                    </el-form-item>
-                    <el-form-item label="跟进人" prop="person">
-                    <el-input v-model="form.postCode" placeholder="请输入编码名称" />
-                    </el-form-item>
-                    <el-form-item label="联系人" prop="postSort">
-                    <el-input v-model="form.postCode" placeholder="请输入编码名称" />
-                    </el-form-item>
-                    <el-form-item label="电话" prop="postSort">
-                    <el-input v-model="form.postCode" placeholder="请输入编码名称" />
-                    </el-form-item>
-                    <el-form-item label="邮箱" prop="postSort">
-                    <el-input v-model="form.postCode" placeholder="请输入编码名称" />
-                    </el-form-item>
-                    <el-form-item label="地址" prop="postSort">
-                    <el-input v-model="form.postCode" placeholder="请输入编码名称" />
-                    </el-form-item>
-                    <el-form-item label="提货地址" prop="postSort">
-                    <el-input v-model="form.postCode" placeholder="请输入编码名称" />
-                    </el-form-item>
-                </el-form>
-            </el-col>
-            <el-col :span="13" style="padding-left:40px">
-                <span class="formTitle">财务信息</span>
-                <el-form ref="form1" :model="form" :rules="rules" label-width="80px">
-                  <el-form-item label="支付方式" prop="line">
-                    <el-input v-model="form.postCode" placeholder="请输入编码名称" />
-                  </el-form-item>
-                  <el-form-item label="结算方式" prop="line">
-                    <el-input v-model="form.postCode" placeholder="请输入编码名称" />
-                  </el-form-item>
-                    <el-form-item label="预付比例" prop="line">
-                    <el-input v-model="form.postCode" placeholder="请输入编码名称" />
-                    </el-form-item>
-                    <el-form-item label="账期" prop="line">
-                    <el-input v-model="form.postCode" placeholder="请输入编码名称" />
-                    </el-form-item>
-                    <el-form-item label="结算币种" prop="line">
-                    <el-input v-model="form.postCode" placeholder="请输入编码名称" />
-                    </el-form-item>
-                    <el-form-item label="收款信息" prop="line">
-                    <el-input v-model="form.postCode" placeholder="请输入编码名称" />
-                    </el-form-item>
-                </el-form>
-            </el-col>
-        </el-row>
-      
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
+    <EditForm ref="editForm" @ok="getList" :lineArray="lineArray" :persionArray="persionArray" :payTypeArray="payTypeArray" :closeArray="closeArray" :currentcyArray="currentcyArray"/>
+    <!--供应商详情-->
+    <Detilas ref="detials"/>
+    <!-- 导入页面 -->
+    <ImportForm ref="importForm" @ok="getList"/>
+    <!-- 审核页面 -->
+    <Audit ref="audit" @ok="getList"/>
   </div>
 </template>
 
 <script>
-import { listPost, getPost, delPost, addPost, updatePost } from "@/api/system/post";
-import {listSuppliers} from '@/api/suppliers/index'
+import EditForm from './components/editForm'
+import Detilas from './components/detials'
+import ImportForm from './components/importForm'
+import Audit from './components/audit'
+import {listSuppliers,getAllLines,getAllPersions,getAllPayType,getAllClose,getAllCurrentcy,handleDeleteSupplier} from '@/api/suppliers/index'
 export default {
   name: "Supplier",
-  dicts: ['sys_normal_disable'],
+  components:{EditForm,Detilas,ImportForm,Audit},
   computed:{
     filterData(){
         return function(data){
             let obj = [];
-            this.postList.filter((item)=>{
+            this.supplierList.filter((item)=>{
                 obj.push(item[data])
             });
             let result = [... new Set(obj)].map(item=>{
@@ -288,80 +230,72 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 岗位表格数据
-      postList: [],
-      // 弹出层标题
-      title: "",
-      // 是否显示弹出层
-      open: false,
+      // 供应商表格数据
+      supplierList: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 20,
-        postCode: undefined,
-        postName: undefined,
-        status: undefined,
         keyword:undefined,
-        line:undefined,
+        lineString:undefined,
         name:undefined,
-        code:undefined
+        code:undefined,
+        persion:undefined
       },
-      // 表单参数
-      form: {},
-      form1:{},
-      // 表单校验
-      rules: {
-        line: [
-          { required: true, message: "岗位名称不能为空", trigger: "blur" }
-        ],
-        name: [
-          { required: true, message: "岗位编码不能为空", trigger: "blur" }
-        ],
-        code: [
-          { required: true, message: "岗位顺序不能为空", trigger: "blur" }
-        ],
-        person: [
-          { required: true, message: "岗位顺序不能为空", trigger: "blur" }
-        ]
-      }
+      // 品线下拉值
+      lineArray:[],
+      // 跟进人下拉值
+      persionArray:[],
+      // 支付方式下拉值
+      payTypeArray:[],
+      // 结算方式下拉值
+      closeArray:[],
+      // 结算币种
+      currentcyArray:[]
+      
     };
   },
   created() {
     this.getList();
+    // 初始化下拉菜单可选项
+    getAllLines().then(res=>{
+      this.lineArray = res.data
+    })
+    getAllPersions().then(res=>{
+      this.persionArray = res.data
+    })
+    getAllPayType().then(res=>{
+      this.payTypeArray = res.data
+    })
+    getAllClose().then(res=>{
+      this.closeArray = res.data
+    })
+    getAllCurrentcy().then(res=>{
+      this.currentcyArray = res.data
+    })
   },
   methods: {
-    /** 查询岗位列表 */
+    /** 查询供应商列表 */
     getList() {
       this.loading = true;
       listSuppliers(this.queryParams).then(response => {
-        this.postList = response.rows;
+        this.supplierList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
     },
-    // 取消按钮
-    cancel() {
-      this.open = false;
-      this.reset();
-    },
-    // 表单重置
-    reset() {
-      this.form = {
-        postId: undefined,
-        postCode: undefined,
-        postName: undefined,
-        postSort: 0,
-        status: "0",
-        remark: undefined
-      };
-      this.resetForm("form");
-    },
-
     /** 搜索按钮操作 */
     handleQuery() {
       this.disableAll()
       this.queryParams.pageNum = 1;
       this.getList();
+    },
+    /** 清楚筛选条件 */
+    handleCanleFilter(item){
+      console.log(item)
+      this.queryParams[item] = undefined
+      console.log(this.queryParams)
+      this.disableAll()
     },
     /** 将所有弹出框置为隐藏 */
     disableAll(){
@@ -377,51 +311,16 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.postId)
+      this.ids = selection.map(item => item.id)
       this.single = selection.length!=1
       this.multiple = !selection.length
     },
-    /** 新增按钮操作 */
-    handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加供应商";
-    },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      this.reset();
-      const postId = row.postId || this.ids
-      getPost(postId).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改供应商";
-      });
-    },
-    /** 提交按钮 */
-    submitForm: function() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.postId != undefined) {
-            updatePost(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
-            });
-          } else {
-            addPost(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
-            });
-          }
-        }
-      });
-    },
+   
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除品线为"' + row.line + '"的数据项？').then(function() {
-        return delPost(ids);
+      this.$modal.confirm('是否确认删除选中的的数据项？').then(function() {
+        return handleDeleteSupplier(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -429,6 +328,7 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
+      //修改为相应导出接口
       this.download('system/post/export', {
         ...this.queryParams
       }, `post_${new Date().getTime()}.xlsx`)

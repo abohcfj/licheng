@@ -119,7 +119,11 @@
             </el-popover>
         </template>
       </el-table-column>
-      <el-table-column label="联系人" align="center" prop="concat" />
+      <el-table-column label="联系人" align="center" prop="concat">
+        <template #header>
+          <ParamSearch title="联系人" paramKey="concat" @search="handleParamsSearch"/>
+        </template>
+      </el-table-column>
       <el-table-column label="电话" align="center" prop="phone" />
       <el-table-column label="邮箱" align="center" prop="email" />
       <el-table-column label="付款期限" align="center" prop="term" />
@@ -191,10 +195,11 @@ import EditForm from './components/editForm'
 import Detilas from './components/detials'
 import ImportForm from './components/importForm'
 import Audit from './components/audit'
+import ParamSearch from '../components/paramSearch/index'
 import {listSuppliers,getAllLines,getAllPersions,getAllPayType,getAllClose,getAllCurrentcy,handleDeleteSupplier} from '@/api/suppliers/index'
 export default {
   name: "Supplier",
-  components:{EditForm,Detilas,ImportForm,Audit},
+  components:{EditForm,Detilas,ImportForm,Audit,ParamSearch},
   computed:{
     filterData(){
         return function(data){
@@ -283,6 +288,12 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+    },
+    /** 字段搜索 */
+    handleParamsSearch(params){
+      const {paramKey,value} = params
+      this.queryParams[paramKey] = value
+      this.getList()
     },
     /** 搜索按钮操作 */
     handleQuery() {

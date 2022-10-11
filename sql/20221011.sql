@@ -4,3 +4,6 @@ VALUES(2000, '供应商管理', 0, 1, 'suppliers', 'suppliers/index', NULL, 1, 1
 INSERT INTO `ry-vue`.sys_menu
 (menu_id, menu_name, parent_id, order_num, `path`, component, query, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
 VALUES(2001, '审核权限', 2000, 1, '', NULL, NULL, 1, 0, 'F', '0', '0', 'suppliers:audit', '#', 'admin', '2022-10-11 16:08:01', '', NULL, '');
+INSERT INTO `ry-vue`.sys_menu
+(menu_id, menu_name, parent_id, order_num, `path`, component, query, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
+VALUES(2002, 'Bom管理', 0, 2, 'bom', 'bom/index', NULL, 1, 1, 'C', '0', '0', NULL, '#', 'admin', '2022-10-11 16:56:18', '', NULL, '');

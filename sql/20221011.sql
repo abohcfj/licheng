@@ -7,3 +7,6 @@ VALUES(2001, '审核权限', 2000, 1, '', NULL, NULL, 1, 0, 'F', '0', '0', 'supp
 INSERT INTO `ry-vue`.sys_menu
 (menu_id, menu_name, parent_id, order_num, `path`, component, query, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
 VALUES(2002, 'Bom管理', 0, 2, 'bom', 'bom/index', NULL, 1, 1, 'C', '0', '0', NULL, '#', 'admin', '2022-10-11 16:56:18', '', NULL, '');
+INSERT INTO ryvue.sys_menu
+(menu_id, menu_name, parent_id, order_num, `path`, component, query, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
+VALUES(2003, 'SKU采购详情', 0, 1, 'pdetails', 'bom/purchaseDetails', NULL, 1, 1, 'C', '1', '0', '', '#', 'admin', '2022-10-11 22:20:38.0', 'admin', '2022-10-11 22:24:44.0', '');

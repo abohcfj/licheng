@@ -3,19 +3,19 @@
   <!-- 如果存在修改的字段，应增加原数据字段进行判断是否显示和数据展示-->
   <el-dialog :title="title" :visible.sync="open" width="1400px" append-to-body>
     <el-table v-loading="loading" :data="detailsList">
-      <el-table-column label="品线" align="center" prop="lineString">
+      <el-table-column label="品线" align="center" prop="productLine">
         <template slot-scope="scope">
-          <span>{{scope.row.lineString}}</span>
+          <span>{{scope.row.productLine}}</span>
           <br />
-          <span class="old" v-if="scope.row.lineString">({{scope.row.lineString}})</span>
+          <span class="old" v-if="scope.row.productLine">({{scope.row.productLine}})</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="供应商" align="center" prop="name">
+      <el-table-column label="供应商" align="center" prop="title">
         <template slot-scope="scope">
-          <span>{{scope.row.name}}</span>
+          <span>{{scope.row.title}}</span>
           <br />
-          <span class="old" v-if="scope.row.name">({{scope.row.name}})</span>
+          <span class="old" v-if="scope.row.title">({{scope.row.title}})</span>
         </template>
       </el-table-column>
 
@@ -26,88 +26,88 @@
           <span class="old" v-if="scope.row.code">({{scope.row.code}})</span>
         </template>
       </el-table-column>
-      <el-table-column label="跟进人" align="center" prop="persion">
+      <el-table-column label="跟进人" align="center" prop="principal">
         <template slot-scope="scope">
-          <span>{{scope.row.persion}}</span>
+          <span>{{scope.row.principal}}</span>
           <br />
-          <span class="old" v-if="scope.row.persion">({{scope.row.persion}})</span>
+          <span class="old" v-if="scope.row.principal">({{scope.row.principal}})</span>
         </template>
       </el-table-column>
-      <el-table-column label="联系人" align="center" prop="concat">
+      <el-table-column label="联系人" align="center" prop="contactName">
         <template slot-scope="scope">
-          <span>{{scope.row.concat}}</span>
+          <span>{{scope.row.contactName}}</span>
           <br />
-          <span class="old" v-if="scope.row.concat">({{scope.row.concat}})</span>
+          <span class="old" v-if="scope.row.contactName">({{scope.row.contactName}})</span>
         </template>
       </el-table-column>
-      <el-table-column label="电话" align="center" prop="phone">
+      <el-table-column label="电话" align="center" prop="contactPhone">
         <template slot-scope="scope">
-          <span>{{scope.row.phone}}</span>
+          <span>{{scope.row.contactPhone}}</span>
           <br />
-          <span class="old" v-if="scope.row.phone">({{scope.row.phone}})</span>
+          <span class="old" v-if="scope.row.contactPhone">({{scope.row.contactPhone}})</span>
         </template>
       </el-table-column>
-      <el-table-column label="邮箱" align="center" prop="email">
+      <el-table-column label="邮箱" align="center" prop="contactEmail">
         <template slot-scope="scope">
-          <span>{{scope.row.email}}</span>
+          <span>{{scope.row.contactEmail}}</span>
           <br />
-          <span class="old" v-if="scope.row.email">({{scope.row.email}})</span>
+          <span class="old" v-if="scope.row.contactEmail">({{scope.row.contactEmail}})</span>
         </template>
       </el-table-column>
-      <el-table-column label="地址" align="center" prop="address">
+      <el-table-column label="地址" align="center" prop="contactAddress">
         <template slot-scope="scope">
-          <span>{{scope.row.address}}</span>
+          <span>{{scope.row.contactAddress}}</span>
           <br />
-          <span class="old" v-if="scope.row.address">({{scope.row.address}})</span>
+          <span class="old" v-if="scope.row.contactAddress">({{scope.row.contactAddress}})</span>
         </template>
       </el-table-column>
-      <el-table-column label="提货地址" align="center" prop="pickup">
+      <el-table-column label="提货地址" align="center" prop="shippingAddress">
         <template slot-scope="scope">
-          <span>{{scope.row.phone}}</span>
+          <span>{{scope.row.shippingAddress}}</span>
           <br />
-          <span class="old" v-if="scope.row.phone">({{scope.row.phone}})</span>
+          <span class="old" v-if="scope.row.shippingAddress">({{scope.row.shippingAddress}})</span>
         </template>
       </el-table-column>
-      <el-table-column label="支付方式" align="center" prop="payTypeString">
+      <el-table-column label="支付方式" align="center" prop="paymentOption">
         <template slot-scope="scope">
-          <span>{{scope.row.payTypeString}}</span>
+          <span>{{scope.row.paymentOption}}</span>
           <br />
-          <span class="old" v-if="scope.row.payTypeString">({{scope.row.payTypeString}})</span>
+          <span class="old" v-if="scope.row.paymentOption">({{scope.row.paymentOption}})</span>
         </template>
       </el-table-column>
-      <el-table-column label="结算方式" align="center" prop="closeTypeString" >
+      <el-table-column label="结算方式" align="center" prop="settleOption" >
         <template slot-scope="scope">
-          <span>{{scope.row.closeTypeString}}</span>
+          <span>{{scope.row.settleOption}}</span>
           <br />
-          <span class="old" v-if="scope.row.closeTypeString">({{scope.row.closeTypeString}})</span>
+          <span class="old" v-if="scope.row.settleOption">({{scope.row.settleOption}})</span>
         </template>
       </el-table-column>
-      <el-table-column label="预付比例" align="center" prop="tatio" >
+      <el-table-column label="预付比例" align="center" prop="prepaidPercentage" >
         <template slot-scope="scope">
-          <span>{{scope.row.tatio}}</span>
+          <span>{{scope.row.prepaidPercentage}}</span>
           <br />
-          <span class="old" v-if="scope.row.tatio">({{scope.row.tatio}})</span>
+          <span class="old" v-if="scope.row.prepaidPercentage">({{scope.row.prepaidPercentage}})</span>
         </template>
       </el-table-column>
-      <el-table-column label="账期" align="center" prop="paymentDays" >
+      <el-table-column label="账期" align="center" prop="paymentPeriod" >
         <template slot-scope="scope">
-          <span>{{scope.row.paymentDays}}</span>
+          <span>{{scope.row.paymentPeriod}}</span>
           <br />
-          <span class="old" v-if="scope.row.paymentDays">({{scope.row.paymentDays}})</span>
+          <span class="old" v-if="scope.row.paymentPeriod">({{scope.row.paymentPeriod}})</span>
         </template>
       </el-table-column>
-      <el-table-column label="结算币种" align="center" prop="currentcyString" >
+      <el-table-column label="结算币种" align="center" prop="settleCurrency" >
         <template slot-scope="scope">
-          <span>{{scope.row.currentcyString}}</span>
+          <span>{{scope.row.settleCurrency}}</span>
           <br />
-          <span class="old" v-if="scope.row.currentcyString">({{scope.row.currentcyString}})</span>
+          <span class="old" v-if="scope.row.settleCurrency">({{scope.row.settleCurrency}})</span>
         </template>
       </el-table-column>
-      <el-table-column label="收款信息" align="center" prop="proceeds">
+      <el-table-column label="收款信息" align="center" prop="paymentInfo">
         <template slot-scope="scope">
-          <span>{{scope.row.proceeds}}</span>
+          <span>{{scope.row.paymentInfo}}</span>
           <br />
-          <span class="old" v-if="scope.row.proceeds">({{scope.row.proceeds}})</span>
+          <span class="old" v-if="scope.row.paymentInfo">({{scope.row.paymentInfo}})</span>
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="handleRemark">
@@ -115,7 +115,7 @@
           <span style="color:forestgreen">{{scope.row.handleRemark}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width"  fixed="right">
         <template slot-scope="scope">
           <el-button size="mini" type="text" @click="handleSubmit(scope.row)">通过</el-button>
           <el-button size="mini" type="text" @click="handleDelete(scope.row)" v-hasPermi="['suppliers:audit']">删除</el-button>

@@ -1,10 +1,10 @@
 <template>
-  <el-dialog title="导入供应商" :visible.sync="open" width="400px" append-to-body>
+  <el-dialog title="导入SKU对应BOM页面" :visible.sync="open" width="400px" append-to-body>
     <el-upload ref="upload" :http-request="requestUpload" class="upload-demo" action="#" accept=".xlsx, .csv"
       :before-upload="beforeUpload" :file-list="fileList">
-      <el-button size="small" slot="trigger" type="primary">导入供应商</el-button>
-      <a style="font-size:12px;vertical-align: baseline;color: #1890ff;padding-left:10px" href="../../../suppliers.xlsx"
-            download="站点房间导入模板.xlsx" >下载数据模板</a>
+      <el-button size="small" slot="trigger" type="primary">导入SKU</el-button>
+      <a style="font-size:12px;vertical-align: baseline;color: #1890ff;padding-left:10px" href="../../../bom.xlsx"
+            download="Sku对应Bom信息.xlsx" >下载数据模板</a>
       <div class="el-upload__tip" slot="tip">
         <div>
           <i class="el-icon-warning  gap"/>

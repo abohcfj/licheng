@@ -5,63 +5,63 @@
     <el-row>
       <el-col :span="11">
         <span class="formTitle"> 供应商基本信息</span>
-          <el-form-item label="品线" prop="line">
-            <el-select v-model="form.line" placeholder="请选择品线" clearable>
-              <el-option v-for="item in lineArray" :key="item.id" :label="item.label" :value="item.id" />
+          <el-form-item label="品线" prop="productLine">
+            <el-select v-model="form.productLine" placeholder="请选择品线" clearable filterable>
+              <el-option v-for="item in lineArray" :key="item.label" :label="item.label" :value="item.label" />
             </el-select>
           </el-form-item>
-          <el-form-item label="供应商" prop="name">
-            <el-input v-model="form.name" placeholder="请输入供应商名称" />
+          <el-form-item label="供应商" prop="title">
+            <el-input v-model="form.title" placeholder="请输入供应商名称" />
           </el-form-item>
           <el-form-item label="供应商代码" prop="code">
             <el-input v-model="form.code" placeholder="请输入供应商代码" />
           </el-form-item>
-          <el-form-item label="跟进人" prop="persion">
-            <el-select v-model="form.persion" placeholder="请选择品线" clearable>
-              <el-option v-for="item in persionArray" :key="item.id" :label="item.label" :value="item.id" />
+          <el-form-item label="跟进人" prop="principal">
+            <el-select v-model="form.principal" placeholder="请选择品线" clearable filterable>
+              <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
             </el-select>
           </el-form-item>
-          <el-form-item label="联系人" prop="concat">
-            <el-input v-model="form.concat" placeholder="请输入联系人" />
+          <el-form-item label="联系人" prop="contactName">
+            <el-input v-model="form.contactName" placeholder="请输入联系人" />
           </el-form-item>
-          <el-form-item label="电话" prop="phone">
-            <el-input v-model="form.phone" placeholder="请输入电话" />
+          <el-form-item label="电话" prop="contactPhone">
+            <el-input v-model="form.contactPhone" placeholder="请输入电话" />
           </el-form-item>
-          <el-form-item label="邮箱" prop="email">
-            <el-input v-model="form.email" placeholder="请输入邮箱" />
+          <el-form-item label="邮箱" prop="contactEmail">
+            <el-input v-model="form.contactEmail" placeholder="请输入邮箱" />
           </el-form-item>
-          <el-form-item label="地址" prop="address">
-            <el-input v-model="form.address" placeholder="请输入地址" />
+          <el-form-item label="地址" prop="contactAddress">
+            <el-input v-model="form.contactAddress" placeholder="请输入地址" />
           </el-form-item>
-          <el-form-item label="提货地址" prop="pickup">
-            <el-input v-model="form.pickup" placeholder="请输入提货地址" />
+          <el-form-item label="提货地址" prop="shippingAddress">
+            <el-input v-model="form.shippingAddress" placeholder="请输入提货地址" />
           </el-form-item>
       </el-col>
       <el-col :span="13" style="padding-left:40px">
         <span class="formTitle">财务信息</span>
-          <el-form-item label="支付方式" prop="payType">
-            <el-select v-model="form.payType" placeholder="请选择支付方式" clearable>
-              <el-option v-for="item in payTypeArray" :key="item.id" :label="item.label" :value="item.id" />
+          <el-form-item label="支付方式" prop="paymentOption">
+            <el-select v-model="form.paymentOption" placeholder="请选择支付方式" clearable>
+              <el-option v-for="item in payTypeArray" :key="item.label" :label="item.label" :value="item.label" />
             </el-select>
           </el-form-item>
-          <el-form-item label="结算方式" prop="closeType">
-            <el-select v-model="form.closeType" placeholder="请选择结算方式" clearable>
-              <el-option v-for="item in closeArray" :key="item.id" :label="item.label" :value="item.id" />
+          <el-form-item label="结算方式" prop="settleOption">
+            <el-select v-model="form.settleOption" placeholder="请选择结算方式" clearable>
+              <el-option v-for="item in closeArray" :key="item.label" :label="item.label" :value="item.label" />
             </el-select>
           </el-form-item>
-          <el-form-item label="预付比例" prop="tatio">
-            <el-input v-model="form.tatio" placeholder="请输入预付比例" />
+          <el-form-item label="预付比例" prop="prepaidPercentage">
+            <el-input v-model="form.prepaidPercentage" type="number" placeholder="请输入预付比例" />
           </el-form-item>
-          <el-form-item label="账期" prop="paymentDays">
-            <el-input v-model="form.paymentDays" placeholder="请输入账期" />
+          <el-form-item label="账期" prop="paymentPeriod">
+            <el-input v-model="form.paymentPeriod" placeholder="请输入账期" />
           </el-form-item>
-          <el-form-item label="结算币种" prop="currentcy">
-            <el-select v-model="form.currentcy" placeholder="请选择结算币种" clearable>
-              <el-option v-for="item in currentcyArray" :key="item.id" :label="item.label" :value="item.id" />
+          <el-form-item label="结算币种" prop="settleCurrency">
+            <el-select v-model="form.settleCurrency" placeholder="请选择结算币种" clearable>
+              <el-option v-for="item in currentcyArray" :key="item.label" :label="item.label" :value="item.label" />
             </el-select>
           </el-form-item>
-          <el-form-item label="收款信息" prop="proceeds">
-            <el-input v-model="form.proceeds" placeholder="请输入收款信息" />
+          <el-form-item label="收款信息" prop="paymentInfo">
+            <el-input v-model="form.paymentInfo" placeholder="请输入收款信息" />
           </el-form-item>
       </el-col>
     </el-row>
@@ -112,34 +112,34 @@ export default {
       // 表单参数
       form: {},
       rules: {
-        line: [
+        productLine: [
           { required: true, message: "品线不能为空", trigger: "blur" }
         ],
-        name: [
+        title: [
           { required: true, message: "供应商不能为空", trigger: "blur" }
         ],
         code: [
           { required: true, message: "供应商代码不能为空", trigger: "blur" }
         ],
-        persion: [
+        principal: [
           { required: true, message: "跟进人不能为空", trigger: "blur" }
         ],
-        payType: [
+        paymentOption: [
           { required: true, message: "支付方式不能为空", trigger: "blur" }
         ],
-        closeType: [
+        settleOption: [
           { required: true, message: "结算方式不能为空", trigger: "blur" }
         ],
-        tatio: [
+        prepaidPercentage: [
           { required: true, message: "预付比例不能为空", trigger: "blur" }
         ],
-        paymentDays: [
+        paymentPeriod: [
           { required: true, message: "账期不能为空", trigger: "blur" }
         ],
-        currentcy: [
+        settleCurrency: [
           { required: true, message: "结算币种不能为空", trigger: "blur" }
         ],
-        proceeds: [
+        paymentInfo: [
           { required: true, message: "收款信息不能为空", trigger: "blur" }
         ]
       }
@@ -162,6 +162,7 @@ export default {
       const id = row.id || this.ids
       getSupplier(id).then(response => {
         this.form = response.data;
+        console.log(this.form)
         this.open = true;
         this.title = "编辑供应商";
       });
@@ -195,12 +196,22 @@ export default {
     // 表单重置
     reset () {
       this.form = {
-        postId: undefined,
-        postCode: undefined,
-        postName: undefined,
-        postSort: 0,
-        status: "0",
-        remark: undefined
+        id: undefined,
+        productLine: undefined,
+        title: undefined,
+        code: undefined,
+        principal: undefined,
+        contactName: undefined,
+        contactPhone: undefined,
+        contactEmail: undefined,
+        contactAddress: undefined,
+        shippingAddress:undefined,
+        paymentOption: undefined,
+        settleOption: undefined,
+        prepaidPercentage: undefined,
+        paymentPeriod:undefined,
+        settleCurrency: undefined,
+        paymentInfo: undefined,
       };
       this.resetForm("form");
     },

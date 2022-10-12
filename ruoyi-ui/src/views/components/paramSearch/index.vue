@@ -22,6 +22,15 @@ export default {
     title: {
       type: String,
       default: '',
+    },
+    defaultArray:{
+      type:Array,
+      default:[]
+    }
+  },
+  watch:{
+    defaultArray(nval,oval){
+      this.selectArray = nval
     }
   },
   data () {

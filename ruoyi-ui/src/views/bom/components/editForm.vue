@@ -1,186 +1,96 @@
 <template>
   <!-- 添加或修改供应商对话框 -->
-  <el-dialog :title="title" :visible.sync="open" width="950px" append-to-body>
-    <span class="formTitle"> 供应商基本信息</span>
+  <el-dialog :title="title" :visible.sync="open" width="1000px" append-to-body style="padding:30px">
+    <div class="divSpace"><span class="formTitle"> 供应商基本信息</span></div>
     <el-form ref="form" :inline="true" :model="form" :rules="rules">
       <el-form-item prop="sku">
         <el-input v-model="form.sku" placeholder="Sku/录入" class="inputline" />
       </el-form-item>
       <el-form-item prop="name">
-        <el-input
-          v-model="form.name"
-          placeholder="产品名称"
-          class="inputline"
-        />
+        <el-input v-model="form.name" placeholder="产品名称" class="inputline" />
       </el-form-item>
       <el-form-item prop="pn">
-        <el-select
-          v-model="form.pn"
-          placeholder="PN"
-          clearable
-          class="inputline"
-        >
-          <el-option
-            v-for="item in persionArray"
-            :key="item.id"
-            :label="item.label"
-            :value="item.id"
-          />
+        <el-select v-model="form.pn" placeholder="PN" clearable class="inputline" filterable>
+          <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
         </el-select>
       </el-form-item>
-      <el-form-item prop="line">
-        <el-select
-          v-model="form.line"
-          placeholder="品线"
-          clearable
-          class="inputline"
-        >
-          <el-option
-            v-for="item in persionArray"
-            :key="item.id"
-            :label="item.label"
-            :value="item.id"
-          />
+      <el-form-item prop="productLine">
+        <el-select v-model="form.productLine" placeholder="品线" clearable class="inputline" filterable>
+          <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
         </el-select>
       </el-form-item>
       <el-form-item prop="brand">
-        <el-select
-          v-model="form.brand"
-          placeholder="品牌"
-          clearable
-          class="inputline"
-        >
-          <el-option
-            v-for="item in persionArray"
-            :key="item.id"
-            :label="item.label"
-            :value="item.id"
-          />
+        <el-select v-model="form.brand" placeholder="品牌" clearable class="inputline" filterable>
+          <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
         </el-select>
       </el-form-item>
       <el-form-item prop="country">
-        <el-select
-          v-model="form.country"
-          placeholder="国家"
-          clearable
-          style="width: 100px"
-        >
-          <el-option
-            v-for="item in persionArray"
-            :key="item.id"
-            :label="item.label"
-            :value="item.id"
-          />
+        <el-select v-model="form.country" placeholder="国家" clearable style="width: 100px" filterable>
+          <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
         </el-select>
       </el-form-item>
-      <el-button type="primary" size="medium" @click="addSupplier"
-        >增加供应方案</el-button
-      >
-      <div v-for="(item, index) in form.suppliers" :key="item.id">
-        <div>
-          <i
-            class="el-icon-close"
-            style="font-size: 20px"
-            @click="deleteSupplier(index)"
-          />
+      <el-button type="primary" size="medium" @click="addSupplier">增加供应方案</el-button>
+      <div v-for="(item, index) in form.suppliers" :key="item.label" class="divSpace">
+        <div class="divSpace" style="position:relative;left:-20px">
+          <i class="el-icon-close" style="font-size: 20px;padding-left: -20px;" @click="deleteSupplier(index)" />
           <span class="formTitle">供应商信息{{ index + 1 }}</span>
         </div>
-        <div>
-          <el-select
-            v-model="item.category"
-            placeholder="主供应商/辅供应商"
-            clearable
-          >
-            <el-option
-              v-for="item in persionArray"
-              :key="item.id"
-              :label="item.label"
-              :value="item.id"
-            />
-          </el-select>
-          <el-select v-model="item.tatio" placeholder="采购比例" clearable>
-            <el-option
-              v-for="item in persionArray"
-              :key="item.id"
-              :label="item.label"
-              :value="item.id"
-            />
-          </el-select>
+        <div class="divSpace">
+          <el-form-item label="供应商分类">
+            <el-select v-model="item.supplierCategory" placeholder="主供应商/辅供应商" clearable>
+              <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="采购比例">
+            <el-select v-model="item.ratio" clearable>
+              <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
+            </el-select>
+          </el-form-item>
         </div>
-        <el-table :data="item.list">
+        <el-table :data="item.materials">
           <el-table-column type="index" label="序号" width="50" />
-          <el-table-column prop="kind" label="辅助类别">
+          <el-table-column prop="materialCategory" label="辅料类别">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.kind" clearable>
-                <el-option
-                  v-for="item in persionArray"
-                  :key="item.id"
-                  :label="item.label"
-                  :value="item.id"
-                />
+              <el-select v-model="scope.row.materialCategory" clearable>
+                <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column prop="name" label="辅助名称">
+          <el-table-column prop="materialName" label="辅料名称">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.name" clearable>
-                <el-option
-                  v-for="item in persionArray"
-                  :key="item.id"
-                  :label="item.label"
-                  :value="item.id"
-                />
+              <el-select v-model="scope.row.materialName" clearable>
+                <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column prop="code" label="辅助编码">
+          <el-table-column prop="materialCode" label="辅料编码">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.code" clearable>
-                <el-option
-                  v-for="item in persionArray"
-                  :key="item.id"
-                  :label="item.label"
-                  :value="item.id"
-                />
+              <el-select v-model="scope.row.materialCode" clearable>
+                <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
               </el-select>
             </template>
           </el-table-column>
           <el-table-column prop="supplierCode" label="供应商代码" />
-          <el-table-column prop="supplierCode" label="单价">
+          <el-table-column prop="price" label="单价">
             <template slot-scope="scope">
               <el-input v-model="scope.row.price" placeholder="录入" />
             </template>
           </el-table-column>
-          <el-table-column prop="supplierCode" label="币种">
+          <el-table-column prop="currency" label="币种">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.currentcy" placeholder="录入" />
+              <el-input v-model="scope.row.currency" placeholder="录入" />
             </template>
           </el-table-column>
-          <el-table-column prop="supplierCode" label="数量">
+          <el-table-column prop="quantity" label="数量">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.count" placeholder="录入" />
+              <el-input v-model="scope.row.quantity" placeholder="录入" />
             </template>
           </el-table-column>
-          <el-table-column
-            label="操作"
-            align="center"
-            class-name="small-padding fixed-width"
-          >
+          <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
             <template slot-scope="scope">
-              <el-button
-                size="mini"
-                type="text"
-                v-if="scope.$index === 0"
-                @click="handleAddRow(index)"
-                >新增一行</el-button
-              >
-              <el-button
-                v-if="scope.$index !== 0"
-                size="mini"
-                type="text"
-                @click="handleDelete(index, scope.$index)"
-                >删除此行</el-button
-              >
+              <el-button size="mini" type="text" v-if="scope.$index === 0" @click="handleAddRow(index)">新增一行</el-button>
+              <el-button v-if="scope.$index !== 0" size="mini" type="text" @click="handleDelete(index, scope.$index)">
+                删除此行</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -194,12 +104,12 @@
   </el-dialog>
 </template>
 <script>
-import {
-  getSupplier,
-  handleAddSupplier,
-  handleUpdateSupplier,
-} from "@/api/suppliers/index";
 
+import {
+  getBom,
+  handleAddBom,
+  handleUpdateBom,
+} from "@/api/boms/index";
 export default {
   name: "EditForm",
   props: {
@@ -208,8 +118,9 @@ export default {
       default: [],
     },
   },
-  data() {
+  data () {
     return {
+      loading:false,
       // 是否显示弹出层
       open: false,
       // 弹出层标题
@@ -218,111 +129,111 @@ export default {
       form: {
         suppliers: [
           {
-            category: undefined,
-            tatio: undefined,
-            list: [
+            supplierCategory: undefined,
+            ratio: undefined,
+            materials: [
               {
                 id: 0,
-                kind: undefined,
-                name: undefined,
+                materialCategory: undefined,
+                materialName: undefined,
                 code: undefined,
                 supplierCode: undefined,
                 price: undefined,
                 currentcy: undefined,
-                count: undefined,
+                quantity: undefined,
               },
             ],
           },
         ],
       },
       rules: {
-        line: [{ required: true, message: "品线不能为空", trigger: "blur" }],
+        productLine: [{ required: true, message: "品线不能为空", trigger: "blur" }],
         name: [{ required: true, message: "供应商不能为空", trigger: "blur" }],
-        code: [
-          { required: true, message: "供应商代码不能为空", trigger: "blur" },
+        pn: [
+          { required: true, message: "PN不能为空", trigger: "blur" },
         ],
-        persion: [
-          { required: true, message: "跟进人不能为空", trigger: "blur" },
+        sku: [
+          { required: true, message: "SKU不能为空", trigger: "blur" },
         ],
-        payType: [
-          { required: true, message: "支付方式不能为空", trigger: "blur" },
+        brand: [
+          { required: true, message: "品牌不能为空", trigger: "blur" },
         ],
-        closeType: [
-          { required: true, message: "结算方式不能为空", trigger: "blur" },
+        country: [
+          { required: true, message: "国家不能为空", trigger: "blur" },
         ],
-        tatio: [
-          { required: true, message: "预付比例不能为空", trigger: "blur" },
-        ],
-        paymentDays: [
-          { required: true, message: "账期不能为空", trigger: "blur" },
-        ],
-        currentcy: [
-          { required: true, message: "结算币种不能为空", trigger: "blur" },
-        ],
-        proceeds: [
-          { required: true, message: "收款信息不能为空", trigger: "blur" },
-        ],
+
       },
     };
   },
-  created() {},
+  created () { },
   methods: {
     /** 增加供应商信息 */
-    addSupplier() {
+    addSupplier () {
       let data = {
-        category: undefined,
-        tatio: undefined,
-        list: [
+        supplierCategory: undefined,
+        ratio: undefined,
+        materials: [
           {
             id: 0,
-            kind: undefined,
-            name: undefined,
+            materialCategory: undefined,
+            materialName: undefined,
             code: undefined,
             supplierCode: undefined,
             price: undefined,
             currentcy: undefined,
-            count: undefined,
+            quantity: undefined,
           },
         ],
       };
       this.form.suppliers.push(data);
     },
+    
     /** 对某个供应商增加一行数据输入 */
-    handleAddRow(index) {
+    handleAddRow (index) {
       let data = {
-        id: this.form.suppliers[index].list.length,
-        kind: undefined,
-        name: undefined,
+        id: this.form.suppliers[index].materials.length,
+        materialCategory: undefined,
+        materialName: undefined,
         code: undefined,
         supplierCode: undefined,
         price: undefined,
         currentcy: undefined,
-        count: undefined,
+        quantity: undefined,
       };
-      this.form.suppliers[index].list.push(data);
+      this.form.suppliers[index].materials.push(data);
     },
     /** 对某个供应商删除某行数据 */
-    handleDelete(tableIndex, rowIndex) {
-      this.form.suppliers[tableIndex].list.splice(rowIndex, 1);
+    handleDelete (tableIndex, rowIndex) {
+      this.form.suppliers[tableIndex].materials.splice(rowIndex, 1);
     },
     /** 删除动态的供应商信息 */
-    deleteSupplier(index) {
+    deleteSupplier (index) {
       this.form.suppliers.splice(index, 1);
     },
     /** 新增按钮操作 */
-    handleAdd() {
+    handleAdd () {
       this.reset();
       this.open = true;
       this.title = "添加SKU对应BOM页面";
     },
     /** 修改按钮操作 */
-    handleUpdate(row) {
+    handleUpdate (row) {
       this.reset();
       const id = row.id || this.ids;
-      getSupplier(id).then((response) => {
+      getBom(id).then((response) => {
         this.form = response.data;
         this.open = true;
-        this.title = "编辑供应商";
+        this.title = "编辑SKU对应的BOM页面";
+      });
+    },
+    /** 根据sku查询表单数据 */
+    handleUpdateBySku (sku) {
+      this.reset();
+      // 请求相关接口
+      getBom(sku).then((response) => {
+        this.form = response.data;
+        this.open = true;
+        this.title = "编辑SKU对应的BOM页面";
       });
     },
     /** 提交按钮 */
@@ -330,50 +241,50 @@ export default {
       this.$refs["form"].validate((valid) => {
         if (valid) {
           console.log(this.form);
-          // if (this.form.id != undefined) {
-          //   handleUpdateSupplier(this.form).then((response) => {
-          //     this.$modal.msgSuccess("修改成功");
-          //     this.open = false;
-          //     this.$emit("ok");
-          //   });
-          // } else {
-          //   handleAddSupplier(this.form).then((response) => {
-          //     this.$modal.msgSuccess("新增成功");
-          //     this.open = false;
-          //     this.$emit("ok");
-          //   });
-          // }
+          if (this.form.id != undefined) {
+            handleUpdateBom(this.form).then((response) => {
+              this.$modal.msgSuccess("修改成功");
+              this.open = false;
+              this.$emit("ok");
+            });
+          } else {
+            handleAddBom(this.form).then((response) => {
+              this.$modal.msgSuccess("新增成功");
+              this.open = false;
+              this.$emit("ok");
+            });
+          }
         }
       });
     },
     // 取消按钮
-    cancel() {
+    cancel () {
       this.open = false;
       this.reset();
     },
     // 表单重置
-    reset() {
+    reset () {
       this.form = {
         sku: undefined,
         name: undefined,
         pn: undefined,
-        line: undefined,
+        productLine: undefined,
         brand: undefined,
         country: undefined,
         suppliers: [
           {
-            category: undefined,
-            tatio: undefined,
-            list: [
+            supplierCategory: undefined,
+            ratio: undefined,
+            materials: [
               {
-                id: 1,
-                kind: undefined,
-                name: undefined,
+                id: 0,
+                materialCategory: undefined,
+                materialName: undefined,
                 code: undefined,
                 supplierCode: undefined,
                 price: undefined,
                 currentcy: undefined,
-                count: undefined,
+                quantity: undefined,
               },
             ],
           },
@@ -385,13 +296,24 @@ export default {
 };
 </script>
 <style>
+.el-dialog__body {
+    padding: 30px 40px;
+    color: #606266;
+    font-size: 14px;
+    word-break: break-all;
+}
 .formTitle {
   padding-left: 5px;
   font-size: 17px;
   color: #303133;
   border-left: thick solid #1890ff;
 }
+
 .inputline {
   width: 120px;
+}
+
+.divSpace {
+  padding-bottom: 10px;
 }
 </style>

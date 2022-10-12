@@ -14,3 +14,8 @@ VALUES(2003, 'SKU采购详情', 0, 1, 'pdetails', 'bom/purchaseDetails', NULL, 1
 UPDATE `ry-vue`.sys_menu
 SET menu_name='SKU采购详情', parent_id=0, order_num=1, `path`='sku', component='bom/sku', query=NULL, is_frame=1, is_cache=1, menu_type='C', visible='1', status='0', perms='', icon='#', create_by='admin', create_time='2022-10-11 22:20:38', update_by='admin', update_time='2022-10-12 10:04:10', remark=''
 WHERE menu_id=2003;
+
+供应商表单 供应商、供应商代码改成下拉选择 下拉选择改成远程搜索
+表格搜索弹出改成在表头下面显示选择框
+BOM管理表单 供应商代码改成下拉
+SKU采购详情表格 sku合并行

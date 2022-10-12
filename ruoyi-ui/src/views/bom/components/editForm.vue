@@ -1,96 +1,235 @@
 <template>
   <!-- 添加或修改供应商对话框 -->
-  <el-dialog :title="title" :visible.sync="open" width="1000px" append-to-body style="padding:30px">
+  <el-dialog
+    :title="title"
+    :visible.sync="open"
+    width="1000px"
+    append-to-body
+    style="padding: 30px"
+  >
     <div class="divSpace"><span class="formTitle"> 供应商基本信息</span></div>
     <el-form ref="form" :inline="true" :model="form" :rules="rules">
-      <el-form-item prop="sku">
-        <el-input v-model="form.sku" placeholder="Sku/录入" class="inputline" />
-      </el-form-item>
-      <el-form-item prop="name">
-        <el-input v-model="form.name" placeholder="产品名称" class="inputline" />
-      </el-form-item>
-      <el-form-item prop="pn">
-        <el-select v-model="form.pn" placeholder="PN" clearable class="inputline" filterable>
-          <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
-        </el-select>
-      </el-form-item>
-      <el-form-item prop="productLine">
-        <el-select v-model="form.productLine" placeholder="品线" clearable class="inputline" filterable>
-          <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
-        </el-select>
-      </el-form-item>
-      <el-form-item prop="brand">
-        <el-select v-model="form.brand" placeholder="品牌" clearable class="inputline" filterable>
-          <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
-        </el-select>
-      </el-form-item>
-      <el-form-item prop="country">
-        <el-select v-model="form.country" placeholder="国家" clearable style="width: 100px" filterable>
-          <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
-        </el-select>
-      </el-form-item>
-      <el-button type="primary" size="medium" @click="addSupplier">增加供应方案</el-button>
-      <div v-for="(item, index) in form.suppliers" :key="item.label" class="divSpace">
-        <div class="divSpace" style="position:relative;left:-20px">
-          <i class="el-icon-close" style="font-size: 20px;padding-left: -20px;" @click="deleteSupplier(index)" />
+      <div style="padding-left: 10px">
+        <el-form-item prop="sku">
+          <el-input
+            size="small"
+            v-model="form.sku"
+            placeholder="Sku/录入"
+            class="inputline"
+          />
+        </el-form-item>
+        <el-form-item prop="name">
+          <el-input
+            size="small"
+            v-model="form.name"
+            placeholder="产品名称"
+            class="inputline"
+          />
+        </el-form-item>
+        <el-form-item prop="pn">
+          <el-select
+            size="small"
+            v-model="form.pn"
+            placeholder="PN"
+            clearable
+            class="inputline"
+            filterable
+          >
+            <el-option
+              v-for="item in persionArray"
+              :key="item.label"
+              :label="item.label"
+              :value="item.label"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="productLine">
+          <el-select
+            size="small"
+            v-model="form.productLine"
+            placeholder="品线"
+            clearable
+            class="inputline"
+            filterable
+          >
+            <el-option
+              v-for="item in persionArray"
+              :key="item.label"
+              :label="item.label"
+              :value="item.label"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="brand">
+          <el-select
+            size="small"
+            v-model="form.brand"
+            placeholder="品牌"
+            clearable
+            class="inputline"
+            filterable
+          >
+            <el-option
+              v-for="item in persionArray"
+              :key="item.label"
+              :label="item.label"
+              :value="item.label"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="country">
+          <el-select
+            size="small"
+            v-model="form.country"
+            placeholder="国家"
+            clearable
+            style="width: 100px"
+            filterable
+          >
+            <el-option
+              v-for="item in persionArray"
+              :key="item.label"
+              :label="item.label"
+              :value="item.label"
+            />
+          </el-select>
+        </el-form-item>
+        <el-button type="primary" size="medium" @click="addSupplier"
+          >增加供应方案</el-button
+        >
+      </div>
+      <div
+        v-for="(item, index) in form.suppliers"
+        :key="item.label"
+        class="divSpace"
+      >
+        <div class="divSpace" style="position: relative; left: -20px">
+          <i
+            class="el-icon-close"
+            style="font-size: 20px; padding-left: -20px"
+            @click="deleteSupplier(index)"
+          />
           <span class="formTitle">供应商信息{{ index + 1 }}</span>
         </div>
-        <div class="divSpace">
+        <div class="divSpace" style="padding-left: 10px">
           <el-form-item label="供应商分类">
-            <el-select v-model="item.supplierCategory" placeholder="主供应商/辅供应商" clearable>
-              <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
+            <el-select
+              size="small"
+              v-model="item.supplierCategory"
+              placeholder="主供应商/辅供应商"
+              clearable
+            >
+              <el-option
+                v-for="item in persionArray"
+                :key="item.label"
+                :label="item.label"
+                :value="item.label"
+              />
             </el-select>
           </el-form-item>
           <el-form-item label="采购比例">
-            <el-select v-model="item.ratio" clearable>
-              <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
-            </el-select>
+            <el-input v-model="item.ratio" size="small" />
           </el-form-item>
         </div>
         <el-table :data="item.materials">
           <el-table-column type="index" label="序号" width="50" />
           <el-table-column prop="materialCategory" label="辅料类别">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.materialCategory" clearable>
-                <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
+              <el-select
+                v-model="scope.row.materialCategory"
+                clearable
+                size="small"
+              >
+                <el-option
+                  v-for="item in persionArray"
+                  :key="item.label"
+                  :label="item.label"
+                  :value="item.label"
+                />
               </el-select>
             </template>
           </el-table-column>
           <el-table-column prop="materialName" label="辅料名称">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.materialName" clearable>
-                <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
+              <el-select
+                v-model="scope.row.materialName"
+                clearable
+                size="small"
+              >
+                <el-option
+                  v-for="item in persionArray"
+                  :key="item.label"
+                  :label="item.label"
+                  :value="item.label"
+                />
               </el-select>
             </template>
           </el-table-column>
           <el-table-column prop="materialCode" label="辅料编码">
             <template slot-scope="scope">
-              <el-select v-model="scope.row.materialCode" clearable>
-                <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
+              <el-select
+                v-model="scope.row.materialCode"
+                clearable
+                size="small"
+              >
+                <el-option
+                  v-for="item in persionArray"
+                  :key="item.label"
+                  :label="item.label"
+                  :value="item.label"
+                />
               </el-select>
             </template>
           </el-table-column>
           <el-table-column prop="supplierCode" label="供应商代码" />
           <el-table-column prop="price" label="单价">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.price" placeholder="录入" />
+              <el-input
+                v-model="scope.row.price"
+                placeholder="录入"
+                size="small"
+              />
             </template>
           </el-table-column>
           <el-table-column prop="currency" label="币种">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.currency" placeholder="录入" />
+              <el-input
+                v-model="scope.row.currency"
+                placeholder="录入"
+                size="small"
+              />
             </template>
           </el-table-column>
           <el-table-column prop="quantity" label="数量">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.quantity" placeholder="录入" />
+              <el-input
+                v-model="scope.row.quantity"
+                placeholder="录入"
+                size="small"
+              />
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+          <el-table-column
+            label="操作"
+            align="center"
+            class-name="small-padding fixed-width"
+          >
             <template slot-scope="scope">
-              <el-button size="mini" type="text" v-if="scope.$index === 0" @click="handleAddRow(index)">新增一行</el-button>
-              <el-button v-if="scope.$index !== 0" size="mini" type="text" @click="handleDelete(index, scope.$index)">
-                删除此行</el-button>
+              <el-button
+                size="mini"
+                type="text"
+                v-if="scope.$index === 0"
+                @click="handleAddRow(index)"
+                >新增一行</el-button
+              >
+              <el-button
+                v-if="scope.$index !== 0"
+                size="mini"
+                type="text"
+                @click="handleDelete(index, scope.$index)"
+              >
+                删除此行</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -104,12 +243,7 @@
   </el-dialog>
 </template>
 <script>
-
-import {
-  getBom,
-  handleAddBom,
-  handleUpdateBom,
-} from "@/api/boms/index";
+import { getBom, handleAddBom, handleUpdateBom } from "@/api/boms/index";
 export default {
   name: "EditForm",
   props: {
@@ -118,9 +252,9 @@ export default {
       default: [],
     },
   },
-  data () {
+  data() {
     return {
-      loading:false,
+      loading: false,
       // 是否显示弹出层
       open: false,
       // 弹出层标题
@@ -147,28 +281,21 @@ export default {
         ],
       },
       rules: {
-        productLine: [{ required: true, message: "品线不能为空", trigger: "blur" }],
+        productLine: [
+          { required: true, message: "品线不能为空", trigger: "blur" },
+        ],
         name: [{ required: true, message: "供应商不能为空", trigger: "blur" }],
-        pn: [
-          { required: true, message: "PN不能为空", trigger: "blur" },
-        ],
-        sku: [
-          { required: true, message: "SKU不能为空", trigger: "blur" },
-        ],
-        brand: [
-          { required: true, message: "品牌不能为空", trigger: "blur" },
-        ],
-        country: [
-          { required: true, message: "国家不能为空", trigger: "blur" },
-        ],
-
+        pn: [{ required: true, message: "PN不能为空", trigger: "blur" }],
+        sku: [{ required: true, message: "SKU不能为空", trigger: "blur" }],
+        brand: [{ required: true, message: "品牌不能为空", trigger: "blur" }],
+        country: [{ required: true, message: "国家不能为空", trigger: "blur" }],
       },
     };
   },
-  created () { },
+  created() {},
   methods: {
     /** 增加供应商信息 */
-    addSupplier () {
+    addSupplier() {
       let data = {
         supplierCategory: undefined,
         ratio: undefined,
@@ -187,9 +314,9 @@ export default {
       };
       this.form.suppliers.push(data);
     },
-    
+
     /** 对某个供应商增加一行数据输入 */
-    handleAddRow (index) {
+    handleAddRow(index) {
       let data = {
         id: this.form.suppliers[index].materials.length,
         materialCategory: undefined,
@@ -203,21 +330,21 @@ export default {
       this.form.suppliers[index].materials.push(data);
     },
     /** 对某个供应商删除某行数据 */
-    handleDelete (tableIndex, rowIndex) {
+    handleDelete(tableIndex, rowIndex) {
       this.form.suppliers[tableIndex].materials.splice(rowIndex, 1);
     },
     /** 删除动态的供应商信息 */
-    deleteSupplier (index) {
+    deleteSupplier(index) {
       this.form.suppliers.splice(index, 1);
     },
     /** 新增按钮操作 */
-    handleAdd () {
+    handleAdd() {
       this.reset();
       this.open = true;
       this.title = "添加SKU对应BOM页面";
     },
     /** 修改按钮操作 */
-    handleUpdate (row) {
+    handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids;
       getBom(id).then((response) => {
@@ -227,7 +354,7 @@ export default {
       });
     },
     /** 根据sku查询表单数据 */
-    handleUpdateBySku (sku) {
+    handleUpdateBySku(sku) {
       this.reset();
       // 请求相关接口
       getBom(sku).then((response) => {
@@ -258,12 +385,12 @@ export default {
       });
     },
     // 取消按钮
-    cancel () {
+    cancel() {
       this.open = false;
       this.reset();
     },
     // 表单重置
-    reset () {
+    reset() {
       this.form = {
         sku: undefined,
         name: undefined,
@@ -296,11 +423,23 @@ export default {
 };
 </script>
 <style>
+.el-dialog__headerbtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 30px;
+}
+
 .el-dialog__body {
-    padding: 30px 40px;
-    color: #606266;
-    font-size: 14px;
-    word-break: break-all;
+  padding: 30px 40px;
+  color: #606266;
+  font-size: 14px;
+  word-break: break-all;
 }
 .formTitle {
   padding-left: 5px;

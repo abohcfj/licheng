@@ -2,22 +2,30 @@
   <!-- 添加或修改供应商对话框 -->
   <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
     <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-    <el-row>
-      <el-col :span="11">
-        <span class="formTitle"> 供应商基本信息</span>
+      <el-row>
+        <el-col :span="11">
+          <span class="formTitle"> 供应商基本信息</span>
           <el-form-item label="品线" prop="productLine">
-            <el-select v-model="form.productLine" placeholder="请选择品线" clearable filterable>
+            <el-select v-model="form.productLine" placeholder="请选择品线" clearable filterable remote :loading="loading"
+              :remote-method="query=>remoteMethod(query,'productLine','productLineArray')">
               <el-option v-for="item in lineArray" :key="item.label" :label="item.label" :value="item.label" />
             </el-select>
           </el-form-item>
           <el-form-item label="供应商" prop="title">
-            <el-input v-model="form.title" placeholder="请输入供应商名称" />
+            <el-select v-model="form.title" placeholder="请选择供应商" clearable filterable remote :loading="loading"
+              :remote-method="query=>remoteMethod(query,'title','titleArray')">
+              <el-option v-for="item in lineArray" :key="item.label" :label="item.label" :value="item.label" />
+            </el-select>
           </el-form-item>
           <el-form-item label="供应商代码" prop="code">
-            <el-input v-model="form.code" placeholder="请输入供应商代码" />
+            <el-select v-model="form.code" placeholder="请选择供应商" clearable filterable remote :loading="loading"
+              :remote-method="query=>remoteMethod(query,'code','codeArray')">
+              <el-option v-for="item in lineArray" :key="item.label" :label="item.label" :value="item.label" />
+            </el-select>
           </el-form-item>
           <el-form-item label="跟进人" prop="principal">
-            <el-select v-model="form.principal" placeholder="请选择品线" clearable filterable>
+            <el-select v-model="form.principal" placeholder="请选择跟进人" clearable filterable remote :loading="loading"
+              :remote-method="query=>remoteMethod(query,'principal','principalArray')">
               <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
             </el-select>
           </el-form-item>
@@ -36,9 +44,9 @@
           <el-form-item label="提货地址" prop="shippingAddress">
             <el-input v-model="form.shippingAddress" placeholder="请输入提货地址" />
           </el-form-item>
-      </el-col>
-      <el-col :span="13" style="padding-left:40px">
-        <span class="formTitle">财务信息</span>
+        </el-col>
+        <el-col :span="13" style="padding-left:40px">
+          <span class="formTitle">财务信息</span>
           <el-form-item label="支付方式" prop="paymentOption">
             <el-select v-model="form.paymentOption" placeholder="请选择支付方式" clearable>
               <el-option v-for="item in payTypeArray" :key="item.label" :label="item.label" :value="item.label" />
@@ -63,9 +71,9 @@
           <el-form-item label="收款信息" prop="paymentInfo">
             <el-input v-model="form.paymentInfo" placeholder="请输入收款信息" />
           </el-form-item>
-      </el-col>
-    </el-row>
-  </el-form>
+        </el-col>
+      </el-row>
+    </el-form>
 
 
     <div slot="footer" class="dialog-footer">
@@ -75,7 +83,7 @@
   </el-dialog>
 </template>
 <script>
-import { getSupplier,handleAddSupplier,handleUpdateSupplier } from '@/api/suppliers/index'
+import { getSupplier, handleAddSupplier, handleUpdateSupplier } from '@/api/suppliers/index'
 
 export default {
   name: "EditForm",
@@ -88,23 +96,24 @@ export default {
       type: Array,
       default: [],
     },
-    payTypeArray:{
+    payTypeArray: {
       type: Array,
       default: [],
     },
     // 结算方式下拉值
-    closeArray:{
+    closeArray: {
       type: Array,
       default: [],
     },
     // 结算币种
-    currentcyArray:{
+    currentcyArray: {
       type: Array,
       default: [],
     },
   },
   data () {
     return {
+      loading: false,
       // 是否显示弹出层
       open: false,
       // 弹出层标题
@@ -143,13 +152,27 @@ export default {
           { required: true, message: "收款信息不能为空", trigger: "blur" }
         ]
       }
-     
+
     }
   },
   created () {
 
   },
   methods: {
+    /** 远程搜索功能
+     * query:搜索值
+     * param:表单参数
+     * selectKey:下拉渲染值
+     */
+    remoteMethod (query, param, selectKey) {
+      if (query !== '') {
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+        }, 200);
+      }
+      console.log(query, param, selectKey)
+    },
     /** 新增按钮操作 */
     handleAdd () {
       this.reset();
@@ -170,22 +193,22 @@ export default {
     /** 提交按钮 */
     submitForm: function () {
       this.$refs["form"].validate(valid => {
-          if (valid) {
-            if (this.form.id != undefined) {
-              handleUpdateSupplier(this.form).then(response => {
-                this.$modal.msgSuccess("修改成功");
-                this.open = false;
-                this.$emit('ok');
-              });
-            } else {
-              handleAddSupplier(this.form).then(response => {
-                this.$modal.msgSuccess("新增成功");
-                this.open = false;
-                this.$emit('ok');
-              });
+        if (valid) {
+          if (this.form.id != undefined) {
+            handleUpdateSupplier(this.form).then(response => {
+              this.$modal.msgSuccess("修改成功");
+              this.open = false;
+              this.$emit('ok');
+            });
+          } else {
+            handleAddSupplier(this.form).then(response => {
+              this.$modal.msgSuccess("新增成功");
+              this.open = false;
+              this.$emit('ok');
+            });
           }
         }
-       
+
       });
     },
     // 取消按钮
@@ -205,11 +228,11 @@ export default {
         contactPhone: undefined,
         contactEmail: undefined,
         contactAddress: undefined,
-        shippingAddress:undefined,
+        shippingAddress: undefined,
         paymentOption: undefined,
         settleOption: undefined,
         prepaidPercentage: undefined,
-        paymentPeriod:undefined,
+        paymentPeriod: undefined,
         settleCurrency: undefined,
         paymentInfo: undefined,
       };

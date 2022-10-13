@@ -1,15 +1,14 @@
 <template>
-  <el-popover placement="bottom" title="搜索" width="200" trigger="click">
-    <div slot="reference" class="search-header">
+  <div>
+    <div class="search-header">
       <span class="search-title" :class="value!==''?'red':''">{{title}}</span>
-      <i class="search-icon el-icon-search"></i>
     </div>
-    <el-select size="mini" v-model="value" filterable remote clearable :loading="loading" placeholder="请输入关键词"
+    <el-select size="mini" v-model="value" filterable remote clearable :loading="loading" placeholder="请选择"
       :remote-method="remoteMethod" @change="handleSearch">
       <el-option v-for="item in selectArray" :key="item.value" :label="item.label" :value="item.value">
       </el-option>
     </el-select>
-  </el-popover>
+  </div>
 </template>
 <script>
 export default {

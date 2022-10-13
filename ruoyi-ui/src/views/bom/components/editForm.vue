@@ -181,7 +181,22 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column prop="supplierCode" label="供应商代码" />
+          <el-table-column prop="supplierCode" label="供应商代码">
+            <template slot-scope="scope">
+              <el-select
+                v-model="scope.row.supplierCode"
+                clearable
+                size="small"
+              >
+                <el-option
+                  v-for="item in persionArray"
+                  :key="item.label"
+                  :label="item.label"
+                  :value="item.label"
+                />
+              </el-select>
+            </template>
+          </el-table-column>
           <el-table-column prop="price" label="单价">
             <template slot-scope="scope">
               <el-input

@@ -5,103 +5,82 @@
     <el-table v-loading="loading" :data="detailsList" style="font-size: 12px">
       <el-table-column label="SKU" align="center" prop="sku">
         <template slot-scope="scope">
-          <span>{{ scope.row.sku }}</span>
-          <br />
-          <span
-            class="old"
-            v-if="scope.row.olddata && scope.row.olddata.sku !== scope.row.sku"
-            >({{ scope.row.olddata.sku }})</span
-          >
+          <AuditTableDiff paramKey="sku" :tableData="scope.row" />
         </template>
       </el-table-column>
-
       <el-table-column label="产品名称" align="center" prop="name">
         <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
+          <AuditTableDiff paramKey="name" :tableData="scope.row" />
         </template>
       </el-table-column>
-
       <el-table-column label="PN" align="center" prop="pn">
         <template slot-scope="scope">
-          <span>{{ scope.row.pn }}</span>
+          <AuditTableDiff paramKey="pn" :tableData="scope.row" />
         </template>
       </el-table-column>
       <el-table-column label="品线" align="center" prop="productLine">
         <template slot-scope="scope">
-          <span>{{ scope.row.productLine }}</span>
-          <br />
-          <span
-            class="old"
-            v-if="
-              scope.row.olddata &&
-              scope.row.olddata.productLine !== scope.row.productLine
-            "
-            >({{ scope.row.olddata.productLine }})</span
-          >
+          <AuditTableDiff paramKey="productLine" :tableData="scope.row" />
         </template>
       </el-table-column>
       <el-table-column label="品牌" align="center" prop="brand">
         <template slot-scope="scope">
-          <span>{{ scope.row.brand }}</span>
+          <AuditTableDiff paramKey="brand" :tableData="scope.row" />
         </template>
       </el-table-column>
       <el-table-column label="国家" align="center" prop="country">
         <template slot-scope="scope">
-          <span>{{ scope.row.country }}</span>
+          <AuditTableDiff paramKey="country" :tableData="scope.row" />
         </template>
       </el-table-column>
-      <el-table-column
-        label="供应商分类"
-        align="center"
-        prop="supplierCategory"
-      >
+      <el-table-column label="供应商分类" align="center" prop="supplierCategory">
         <template slot-scope="scope">
-          <span>{{ scope.row.supplierCategory }}</span>
+          <AuditTableDiff paramKey="supplierCategory" :tableData="scope.row" />
         </template>
       </el-table-column>
       <el-table-column label="采购比例" align="center" prop="ratio">
         <template slot-scope="scope">
-          <span>{{ scope.row.ratio }}</span>
+          <AuditTableDiff paramKey="ratio" :tableData="scope.row" />
         </template>
       </el-table-column>
       <el-table-column label="辅料序号" align="center" prop="materialId">
         <template slot-scope="scope">
-          <span>{{ scope.row.materialId }}</span>
+          <AuditTableDiff paramKey="materialId" :tableData="scope.row" />
         </template>
       </el-table-column>
       <el-table-column label="辅料类别" align="center" prop="materialCategory">
         <template slot-scope="scope">
-          <span>{{ scope.row.materialCategory }}</span>
+          <AuditTableDiff paramKey="materialCategory" :tableData="scope.row" />
         </template>
       </el-table-column>
       <el-table-column label="辅料名称" align="center" prop="materialName">
         <template slot-scope="scope">
-          <span>{{ scope.row.materialName }}</span>
+          <AuditTableDiff paramKey="materialName" :tableData="scope.row" />
         </template>
       </el-table-column>
       <el-table-column label="辅料编码" align="center" prop="materialCode">
         <template slot-scope="scope">
-          <span>{{ scope.row.materialCode }}</span>
+          <AuditTableDiff paramKey="materialCode" :tableData="scope.row" />
         </template>
       </el-table-column>
       <el-table-column label="供应商代码" align="center" prop="supplierCode">
         <template slot-scope="scope">
-          <span>{{ scope.row.supplierCode }}</span>
+          <AuditTableDiff paramKey="supplierCode" :tableData="scope.row" />
         </template>
       </el-table-column>
       <el-table-column label="单价" align="center" prop="price">
         <template slot-scope="scope">
-          <span>{{ scope.row.price }}</span>
+          <AuditTableDiff paramKey="price" :tableData="scope.row" />
         </template>
       </el-table-column>
       <el-table-column label="币种" align="center" prop="currency">
         <template slot-scope="scope">
-          <span>{{ scope.row.currency }}</span>
+          <AuditTableDiff paramKey="currency" :tableData="scope.row" />
         </template>
       </el-table-column>
       <el-table-column label="数量" align="center" prop="quantity">
         <template slot-scope="scope">
-          <span>{{ scope.row.quantity }}</span>
+          <AuditTableDiff paramKey="quantity" :tableData="scope.row" />
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="handleRemark">
@@ -111,22 +90,10 @@
       </el-table-column>
       <el-table-column label="申请时间" align="center" prop="createdDate">
       </el-table-column>
-      <el-table-column
-        label="操作"
-        align="center"
-        class-name="small-padding fixed-width"
-        fixed="right"
-      >
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" fixed="right">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" @click="handleSubmit(scope.row)"
-            >通过</el-button
-          >
-          <el-button
-            size="mini"
-            type="text"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['suppliers:audit']"
-            >删除
+          <el-button size="mini" type="text" @click="handleSubmit(scope.row)">通过</el-button>
+          <el-button size="mini" type="text" @click="handleDelete(scope.row)" v-hasPermi="['suppliers:audit']">删除
           </el-button>
         </template>
       </el-table-column>
@@ -134,13 +101,16 @@
   </el-dialog>
 </template>
 <script>
+import AuditTableDiff from '@/views/components/auditTableDiff/index'
+
 import { listBoms } from "@/api/boms/index";
 import { handleAgreeAudit, handleDeleteAudit } from "@/api/suppliers/index";
 
 export default {
   name: "Audit",
+  components: { AuditTableDiff },
   props: {},
-  data() {
+  data () {
     return {
       // 遮罩层
       loading: true,
@@ -151,9 +121,9 @@ export default {
       detailsList: [],
     };
   },
-  created() {},
+  created () { },
   methods: {
-    getInfo() {
+    getInfo () {
       this.open = true;
       this.loading = true;
       listBoms().then((res) => {
@@ -162,21 +132,21 @@ export default {
         this.loading = false;
       });
     },
-    handleSubmit(row) {
+    handleSubmit (row) {
       const { id } = row;
       // 构造需要的数据进行上传
       handleAgreeAudit(row).then((res) => {
         this.$modal.msgSuccess("提交成功");
       });
     },
-    handleDelete(row) {
+    handleDelete (row) {
       const { id } = row;
       handleDeleteAudit(id).then((res) => {
         this.$modal.msgSuccess("删除成功");
       });
     },
     // 取消按钮
-    cancel() {
+    cancel () {
       this.open = false;
       this.detailsList = [];
     },

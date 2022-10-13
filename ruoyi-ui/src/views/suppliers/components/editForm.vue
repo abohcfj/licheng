@@ -151,7 +151,14 @@ export default {
         paymentInfo: [
           { required: true, message: "收款信息不能为空", trigger: "blur" }
         ]
-      }
+      },
+      // 所有远程搜索下拉框渲染值
+      selectArray:{
+        productLineArray:[],
+        titleArray:[],
+        codeArray:[],
+        principalArray:[],
+      },
 
     }
   },
@@ -171,7 +178,9 @@ export default {
           this.loading = false;
         }, 200);
       }
+      this.selectArray[selectKey] = [1,2,3]
       console.log(query, param, selectKey)
+      console.log(this.selectArray)
     },
     /** 新增按钮操作 */
     handleAdd () {

@@ -11,114 +11,78 @@
     <el-table v-loading="loading" :data="detailsList">
       <el-table-column label="品线" align="center" prop="productLine">
         <template slot-scope="scope">
-          <span>{{ scope.row.productLine }}</span>
-          <br />
-          <span
-            class="old"
-            v-if="
-              scope.row.olddata &&
-              scope.row.olddata.productLine !== scope.row.productLine
-            "
-            >({{ scope.row.olddata.productLine }})</span
-          >
+          <!-- 1.先判断备注是不是编辑；2.判断数据中是否有老数据提供；3.比对老数据与新数据是否异同，不一样则展示老数据-->
+          <AuditTableDiff paramKey="productLine" :tableData="scope.row"/>
         </template>
       </el-table-column>
-
       <el-table-column label="供应商" align="center" prop="title">
         <template slot-scope="scope">
-          <span>{{ scope.row.title }}</span>
-          <br />
-          <span
-            class="old"
-            v-if="
-              scope.row.olddata && scope.row.olddata.title !== scope.row.title
-            "
-            >({{ scope.row.olddata.title }})</span
-          >
+          <AuditTableDiff paramKey="title" :tableData="scope.row"/>
         </template>
       </el-table-column>
-
       <el-table-column label="供应商代码" align="center" prop="code">
         <template slot-scope="scope">
-          <span>{{ scope.row.code }}</span>
-          <br />
-          <span
-            class="old"
-            v-if="
-              scope.row.olddata && scope.row.olddata.code !== scope.row.code
-            "
-            >({{ scope.row.olddata.code }})</span
-          >
+          <AuditTableDiff paramKey="code" :tableData="scope.row"/>
         </template>
       </el-table-column>
       <el-table-column label="跟进人" align="center" prop="principal">
         <template slot-scope="scope">
-          <span>{{ scope.row.principal }}</span>
-          <br />
-          <span
-            class="old"
-            v-if="
-              scope.row.olddata &&
-              scope.row.olddata.principal !== scope.row.principal
-            "
-            >({{ scope.row.olddata.principal }})</span
-          >
-          >
+          <AuditTableDiff paramKey="principal" :tableData="scope.row"/>
         </template>
       </el-table-column>
       <el-table-column label="联系人" align="center" prop="contactName">
         <template slot-scope="scope">
-          <span>{{ scope.row.contactName }}</span>
+          <AuditTableDiff paramKey="contactName" :tableData="scope.row"/>
         </template>
       </el-table-column>
       <el-table-column label="电话" align="center" prop="contactPhone">
         <template slot-scope="scope">
-          <span>{{ scope.row.contactPhone }}</span>
+          <AuditTableDiff paramKey="contactPhone" :tableData="scope.row"/>
         </template>
       </el-table-column>
       <el-table-column label="邮箱" align="center" prop="contactEmail">
         <template slot-scope="scope">
-          <span>{{ scope.row.contactEmail }}</span>
+          <AuditTableDiff paramKey="contactEmail" :tableData="scope.row"/>
         </template>
       </el-table-column>
       <el-table-column label="地址" align="center" prop="contactAddress">
         <template slot-scope="scope">
-          <span>{{ scope.row.contactAddress }}</span>
+          <AuditTableDiff paramKey="contactAddress" :tableData="scope.row"/>
         </template>
       </el-table-column>
       <el-table-column label="提货地址" align="center" prop="shippingAddress">
         <template slot-scope="scope">
-          <span>{{ scope.row.shippingAddress }}</span>
+          <AuditTableDiff paramKey="shippingAddress" :tableData="scope.row"/>
         </template>
       </el-table-column>
       <el-table-column label="支付方式" align="center" prop="paymentOption">
         <template slot-scope="scope">
-          <span>{{ scope.row.paymentOption }}</span>
+          <AuditTableDiff paramKey="paymentOption" :tableData="scope.row"/>
         </template>
       </el-table-column>
       <el-table-column label="结算方式" align="center" prop="settleOption">
         <template slot-scope="scope">
-          <span>{{ scope.row.settleOption }}</span>
+          <AuditTableDiff paramKey="settleOption" :tableData="scope.row"/>
         </template>
       </el-table-column>
       <el-table-column label="预付比例" align="center" prop="prepaidPercentage">
         <template slot-scope="scope">
-          <span>{{ scope.row.prepaidPercentage }}</span>
+          <AuditTableDiff paramKey="prepaidPercentage" :tableData="scope.row"/>
         </template>
       </el-table-column>
       <el-table-column label="账期" align="center" prop="paymentPeriod">
         <template slot-scope="scope">
-          <span>{{ scope.row.paymentPeriod }}</span>
+          <AuditTableDiff paramKey="paymentPeriod" :tableData="scope.row"/>
         </template>
       </el-table-column>
       <el-table-column label="结算币种" align="center" prop="settleCurrency">
         <template slot-scope="scope">
-          <span>{{ scope.row.settleCurrency }}</span>
+          <AuditTableDiff paramKey="settleCurrency" :tableData="scope.row"/>
         </template>
       </el-table-column>
       <el-table-column label="收款信息" align="center" prop="paymentInfo">
         <template slot-scope="scope">
-          <span>{{ scope.row.paymentInfo }}</span>
+          <AuditTableDiff paramKey="paymentInfo" :tableData="scope.row"/>
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="handleRemark">
@@ -149,6 +113,7 @@
   </el-dialog>
 </template>
 <script>
+import AuditTableDiff from '@/views/components/auditTableDiff/index'
 import {
   listAudit,
   handleAgreeAudit,
@@ -157,6 +122,7 @@ import {
 
 export default {
   name: "Audit",
+  components:{AuditTableDiff},
   props: {},
   data() {
     return {

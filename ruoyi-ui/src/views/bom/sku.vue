@@ -8,7 +8,7 @@
       <el-button type="primary" icon="el-icon-download" size="mini" @click="handleExport">导出</el-button>
     </el-row>
 
-    <el-table v-loading="loading" :data="list" @selection-change="handleSelectionChange"
+    <el-table v-loading="loading" :data="list" @selection-change="handleSelectionChange" border
       :span-method="objectSpanMethod">
       <el-table-column type="selection" width="45" align="center" />
       <el-table-column prop="productLine" label="品线"> </el-table-column>
@@ -22,7 +22,7 @@
       <el-table-column prop="currency" label="币种"> </el-table-column>
       <el-table-column prop="supplierCategory" label="供应商分类"> </el-table-column>
       <el-table-column prop="ratio" label="采购比例"> </el-table-column>
-      <el-table-column prop="createdDate" label="录入时间"> </el-table-column>
+      <el-table-column prop="createdDate" label="录入时间" width="150"> </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" @click="$refs.skuDetilas.getInfo(scope.row.id)">详情</el-button>
@@ -32,11 +32,11 @@
     </el-table>
     <pagination v-show="total > 0" :pageSizes="[20, 50, 100]" :total="total" :page.sync="queryParams.pageNum"
       :limit.sync="queryParams.pageSize" @pagination="getList" />
-    <SkuDetilas ref="skuDetilas"/>
+    <SkuDetilas ref="skuDetilas" />
   </div>
 </template>
 <script>
-import {listBoms,handleDeleteBom} from '@/api/boms/index'
+import { listBoms, handleDeleteBom } from '@/api/boms/index'
 import SkuDetilas from './components/skuDetials'
 export default {
   name: "SKU",
@@ -69,7 +69,7 @@ export default {
     // 查询采购详情数据
     getList () {
       this.loading = true
-      listBoms(this.queryParams).then(res=>{
+      listBoms(this.queryParams).then(res => {
         this.list = res.rows
         this.total = res.total;
         this.loading = false;
@@ -80,33 +80,36 @@ export default {
       // 判断是否全选当前页数据
       this.single = selection.length != 1;
       this.multiple = !selection.length;
-      if (selection.length === this.list.length) {
-        this.ids = selection.map((item) => item.id);
-      } else {
-        this.ids = []
-        for (let i = 0; i < selection.length; i++) {
-          let flag = false
-          for (let j = 0; j < this.list.length; j++) {
-            // 找到列表中的选中数据
-            if (selection[i].id === this.list[j].id) {
-              flag = true
-            }
-            // 开始寻找是否有合并列，有就加入
-            if (flag && selection[i].line === this.list[j].line) {
-              this.ids.push(this.list[j].id)
-            }
-            // 没有合并列则退出此循环 找下一个选中项的合并列
-            if (flag && selection[i].line !== this.list[j].line) {
-              this.flag = false
-              break
-            }
-          }
-        }
-      }
+      this.ids = selection.map((item) => item.id);
+
+      // 对于前五列都合并的勾选处理
+      // if (selection.length === this.list.length) {
+      //   this.ids = selection.map((item) => item.id);
+      // } else {
+      //   this.ids = []
+      //   for (let i = 0; i < selection.length; i++) {
+      //     let flag = false
+      //     for (let j = 0; j < this.list.length; j++) {
+      //       // 找到列表中的选中数据
+      //       if (selection[i].id === this.list[j].id) {
+      //         flag = true
+      //       }
+      //       // 开始寻找是否有合并列，有就加入
+      //       if (flag && selection[i].line === this.list[j].line) {
+      //         this.ids.push(this.list[j].id)
+      //       }
+      //       // 没有合并列则退出此循环 找下一个选中项的合并列
+      //       if (flag && selection[i].line !== this.list[j].line) {
+      //         this.flag = false
+      //         break
+      //       }
+      //     }
+      //   }
+      // }
 
     },
     // 判断列数据是否相同
-    flitterData (arr) {
+    flitterData (arr,key) {
       let spanOneArr = [];
       let concatOne = 0;
       arr.forEach((item, index) => {
@@ -115,11 +118,7 @@ export default {
         } else {
           //name 修改
           if (
-            item.line === arr[index - 1].line ||
-            item.brand === arr[index - 1].brand ||
-            item.country === arr[index - 1].country ||
-            item.pn === arr[index - 1].pn ||
-            item.sku === arr[index - 1].sku
+            item[key] === arr[index - 1][key]
           ) {
             //第一列需合并相同内容的判断条件
             spanOneArr[concatOne] += 1;
@@ -135,15 +134,10 @@ export default {
       };
     },
     objectSpanMethod ({ row, column, rowIndex, columnIndex }) {
-      if (
-        columnIndex === 0 ||
-        columnIndex === 1 ||
-        columnIndex === 2 ||
-        columnIndex === 3 ||
-        columnIndex === 4
-      ) {
-        // this.tableData  修改
-        const _row = this.flitterData(this.list).one[rowIndex];
+      let columnArray = [1,2,3,4,5]
+      let keyArray = ['productLine','brand','country','pn','sku']
+      if (columnArray.indexOf(columnIndex)!==-1) {
+        const _row = this.flitterData(this.list,keyArray[columnIndex-1]).one[rowIndex];
         const _col = _row > 0 ? 1 : 0;
         return {
           rowspan: _row,

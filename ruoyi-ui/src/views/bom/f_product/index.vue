@@ -89,7 +89,7 @@
 import EditForm from "./components/editForm";
 import ImportForm from "./components/importForm";
 import Audit from "./components/audit";
-import ParamSearch from '../components/paramSearch/index'
+import ParamSearch from '@/views/components/paramSearch/index'
 
 import {
   getAllLines,
@@ -102,7 +102,7 @@ import {
   listBoms, handleDeleteBom
 } from "@/api/boms/index";
 export default {
-  name: "Bom",
+  name: "F_product",
   components: { EditForm, ImportForm, Audit,ParamSearch },
   computed: {
     filterData () {

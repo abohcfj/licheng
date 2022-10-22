@@ -3,7 +3,7 @@
     <el-upload ref="upload" :http-request="requestUpload" class="upload-demo" action="#" accept=".xlsx, .csv"
       :before-upload="beforeUpload" :file-list="fileList">
       <el-button size="small" slot="trigger" type="primary">导入SKU</el-button>
-      <a style="font-size:12px;vertical-align: baseline;color: #1890ff;padding-left:10px" href="../../../bom.xlsx"
+      <a style="font-size:12px;vertical-align: baseline;color: #1890ff;padding-left:10px" href="../../../../bom.xlsx"
             download="Sku对应Bom信息.xlsx" >下载数据模板</a>
       <div class="el-upload__tip" slot="tip">
         <div>

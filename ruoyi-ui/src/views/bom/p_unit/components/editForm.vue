@@ -7,7 +7,8 @@
     append-to-body
     style="padding: 30px"
   >
-    <el-form ref="form" :inline="true" :model="form" >
+  <div>
+        <i class="el-icon-plus editButton" @click="handleAddRow(_)"/>
         <el-table :data="form.list">
            <el-table-column prop="line" label="品线">
             <template slot-scope="scope">
@@ -175,7 +176,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             label="操作"
             align="center"
             class-name="small-padding fixed-width"
@@ -197,9 +198,9 @@
                 删除此行</el-button
               >
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
-    </el-form>
+    </div>
 
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -345,5 +346,12 @@ export default {
 
 .divSpace {
   padding-bottom: 10px;
+}
+
+.editButton{
+  left: 20px;
+  position: absolute;
+  bottom: 130px;
+  font-size: 20px;
 }
 </style>

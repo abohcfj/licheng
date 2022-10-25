@@ -131,6 +131,9 @@
             <el-input v-model="item.ratio" size="small" />
           </el-form-item>
         </div>
+
+        <i class="el-icon-plus editButton" @click="handleAddRow(index)"/>
+
         <el-table :data="item.materials">
           <el-table-column type="index" label="序号" width="50" />
           <el-table-column prop="materialCategory" label="辅料类别">
@@ -224,7 +227,7 @@
               />
             </template>
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             label="操作"
             align="center"
             class-name="small-padding fixed-width"
@@ -246,7 +249,7 @@
                 删除此行</el-button
               >
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
       </div>
     </el-form>
@@ -469,5 +472,12 @@ export default {
 
 .divSpace {
   padding-bottom: 10px;
+}
+
+.editButton{
+  left: 20px;
+  position: absolute;
+  bottom: 124px;
+  font-size: 20px;
 }
 </style>

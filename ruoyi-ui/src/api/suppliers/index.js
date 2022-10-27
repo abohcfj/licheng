@@ -1,18 +1,32 @@
-import request from '@/utils/request'
-import { getSuppliers,getSuppliersById,lineArray,persionArray,payTypeArray,closeArray,currentcyArray,addSupplier,updateSupplier,deleteSupplier
-  ,getSupplierDetails,auditList,agreeAudit,deleteAudit } from '@/api/mock'
+import request from "@/utils/request";
+import {
+  getSuppliers,
+  getSuppliersById,
+  lineArray,
+  persionArray,
+  payTypeArray,
+  closeArray,
+  currentcyArray,
+  addSupplier,
+  updateSupplier,
+  deleteSupplier,
+  getSupplierDetails,
+  auditList,
+  agreeAudit,
+  deleteAudit,
+} from "@/api/mock";
 // 查询供货商列表
 export function listSuppliers(query) {
-    return getSuppliers();
-    // return request({
-    //     url: '/suppliers/list',
-    //     method: 'get',
-    //     params: query
-    // })
+  return getSuppliers();
+  // return request({
+  //     url: '/suppliers/list',
+  //     method: 'get',
+  //     params: query
+  // })
 }
 
 // 查看供货商表单详情
-export function getSupplier(id){
+export function getSupplier(id) {
   return getSuppliersById(id);
   // return request({
   //   url: '/suppliers/' + id,
@@ -21,13 +35,13 @@ export function getSupplier(id){
 }
 
 // 查看供货商详情
-export function getDetails(id){
-  return getSupplierDetails(id)
+export function getDetails(id) {
+  return getSupplierDetails(id);
 }
 
 // 新增供货商
-export function handleAddSupplier(data){
-  return addSupplier(data)
+export function handleAddSupplier(data) {
+  return addSupplier(data);
   // return request({
   //   url: '/suppliers',
   //   method: 'post',
@@ -36,8 +50,8 @@ export function handleAddSupplier(data){
 }
 
 // 更新供货商
-export function handleUpdateSupplier(data){
-  return updateSupplier(data)
+export function handleUpdateSupplier(data) {
+  return updateSupplier(data);
   // return request({
   //   url: '/suppliers',
   //   method: 'put',
@@ -46,8 +60,8 @@ export function handleUpdateSupplier(data){
 }
 
 // 删除供货商
-export function handleDeleteSupplier(id){
-  return deleteSupplier(id)
+export function handleDeleteSupplier(id) {
+  return deleteSupplier(id);
   // return request({
   //   url: '/suppliers/' + id,
   //   method: 'delete',
@@ -55,8 +69,8 @@ export function handleDeleteSupplier(id){
 }
 
 // 查询待审核的数据
-export function listAudit(){
-  return auditList()
+export function listAudit() {
+  return auditList();
   // return request({
   //   url: '/suppliers/audit',
   //   method: 'get'
@@ -64,7 +78,7 @@ export function listAudit(){
 }
 
 // 审核数据--同意
-export function handleAgreeAudit(data){
+export function handleAgreeAudit(data) {
   return agreeAudit(data);
   // return request({
   //   url: '/suppliers/audit/agree',
@@ -74,7 +88,7 @@ export function handleAgreeAudit(data){
 }
 
 // 审核数据--删除
-export function handleDeleteAudit(id){
+export function handleDeleteAudit(id) {
   return deleteAudit(id);
   // return request({
   //   url: '/suppliers/audit/delete/'+id,
@@ -84,26 +98,35 @@ export function handleDeleteAudit(id){
 }
 
 // 获取所有品线
-export function getAllLines(){
-  return lineArray()
+export function getAllLines() {
+  return lineArray();
 }
 
 //获取所有跟进人
-export function getAllPersions(){
-  return persionArray()
+export function getAllPersions() {
+  return persionArray();
 }
 
 //获取所有支付方式
-export function getAllPayType(){
-  return payTypeArray()
+export function getAllPayType() {
+  return payTypeArray();
 }
 
 // 获取所有结算方式
-export function getAllClose(){
-  return closeArray()
+export function getAllClose() {
+  return closeArray();
 }
 
 // 获取所有结算币种
-export function getAllCurrentcy(){
-  return currentcyArray()
+export function getAllCurrentcy() {
+  return currentcyArray();
+}
+
+// 根据关键字搜索下拉框的值
+export function searchBykeyword(url, params) {
+  return request({
+    url,
+    method: "get",
+    params,
+  });
 }

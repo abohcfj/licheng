@@ -106,7 +106,7 @@ export default {
     // 返回一级子页面1
     goback(row){
       let sku = 'test'
-      this.$router.push({name:"Bom",params:{sku}});
+      this.$router.push({name:"Finished_product",params:{sku}});
     }
   }
 }

@@ -273,7 +273,7 @@ export default {
     },
     /**跳转sku采购详情表格页面 */
     gotoDetails (row) {
-      this.$router.push("/sku");
+      this.$router.push("/bom/sku");
     },
   },
 };

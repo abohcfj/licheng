@@ -35,3 +35,6 @@ INSERT INTO ryvue.sys_menu
 (menu_id, menu_name, parent_id, order_num, `path`, component, query, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
 VALUES(2006, '物料类别管理', 2004, 2, 'category', 'bom/category/index', NULL, 1, 1, 'C', '0', '0', '', '#', 'admin', '2022-10-22 15:05:31', 'admin', '2022-10-22 15:14:30', '');
 
+INSERT INTO `ry-vue`.sys_menu
+(menu_id, menu_name, parent_id, order_num, `path`, component, query, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
+VALUES(2003, 'SKU采购详情', 2004, 1, 'sku', 'bom/f_product/sku', NULL, 1, 1, 'C', '1', '0', '', '#', 'admin', '2022-10-11 22:20:38', 'admin', '2022-10-27 14:52:00', '');

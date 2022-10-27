@@ -1,66 +1,34 @@
 <template>
   <!-- 供应商详情对话框 -->
-  <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
-    <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-      <el-row>
-        <el-col :span="11">
-          <span class="formTitle"> 供应商基本信息</span>
-          <el-form-item label="品线" prop="productLine">
-            <el-input v-model="form.productLine" :disabled="true" size="small"></el-input>
-          </el-form-item>
-          <el-form-item label="供应商" prop="title">
-            <el-input v-model="form.title" :disabled="true" size="small"></el-input>
-
-          </el-form-item>
-          <el-form-item label="供应商代码" prop="code">
-            <el-input v-model="form.code" :disabled="true" size="small"></el-input>
-
-          </el-form-item>
-          <el-form-item label="跟进人" prop="principal">
-            <el-input v-model="form.principal" :disabled="true" size="small"></el-input>
-
-          </el-form-item>
-          <el-form-item label="联系人" prop="contactName">
-            <el-input v-model="form.contactName" :disabled="true" size="small"></el-input>
-          </el-form-item>
-          <el-form-item label="电话" prop="contactPhone">
-            <el-input v-model="form.contactPhone" :disabled="true" size="small"></el-input>
-          </el-form-item>
-          <el-form-item label="邮箱" prop="contactEmail">
-            <el-input v-model="form.contactEmail" :disabled="true" size="small"></el-input>
-          </el-form-item>
-          <el-form-item label="地址" prop="contactAddress">
-            <el-input v-model="form.contactAddress" :disabled="true" size="small"></el-input>
-          </el-form-item>
-          <el-form-item label="提货地址" prop="shippingAddress">
-            <el-input v-model="form.shippingAddress" :disabled="true" size="small"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="13" style="padding-left:40px">
-          <span class="formTitle">财务信息</span>
-          <el-form-item label="支付方式" prop="paymentOption">
-            <el-input v-model="form.paymentOption" :disabled="true" size="small"></el-input>
-
-          </el-form-item>
-          <el-form-item label="结算方式" prop="settleOption">
-            <el-input v-model="form.settleOption" :disabled="true" size="small"></el-input>
-
-          </el-form-item>
-          <el-form-item label="预付比例" prop="prepaidPercentage">
-            <el-input v-model="form.prepaidPercentage" :disabled="true" size="small"></el-input>
-          </el-form-item>
-          <el-form-item label="账期" prop="paymentPeriod">
-            <el-input v-model="form.paymentPeriod" :disabled="true" size="small"></el-input>
-          </el-form-item>
-          <el-form-item label="结算币种" prop="settleCurrency">
-            <el-input v-model="form.settleCurrency" :disabled="true" size="small"></el-input>
-          </el-form-item>
-          <el-form-item label="收款信息" prop="paymentInfo">
-            <el-input v-model="form.paymentInfo" :disabled="true" size="small"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
+  <el-dialog :title="title" :visible.sync="open" width="550px" append-to-body>
+    <el-row>
+      <el-col :span="11">
+        <el-descriptions title="供应商基本信息" :column="1">
+          <el-descriptions-item label-class-name="my-label" label="品线">{{ form.productLine }}</el-descriptions-item>
+          <el-descriptions-item label-class-name="my-label" label="供应商">{{ form.productLine }}</el-descriptions-item>
+          <el-descriptions-item label-class-name="my-label" label="供应商代码">{{ form.code }}</el-descriptions-item>
+          <el-descriptions-item label-class-name="my-label" label="跟进人">{{ form.principal }}</el-descriptions-item>
+          <el-descriptions-item label-class-name="my-label" label="联系人">{{ form.contactName }}</el-descriptions-item>
+          <el-descriptions-item label-class-name="my-label" label="电话">{{ form.contactPhone }}</el-descriptions-item>
+          <el-descriptions-item label-class-name="my-label" label="邮箱">{{ form.contactEmail }}</el-descriptions-item>
+          <el-descriptions-item label-class-name="my-label" label="地址">{{ form.contactAddress }}</el-descriptions-item>
+          <el-descriptions-item label-class-name="my-label" label="提货地址">{{ form.shippingAddress }}</el-descriptions-item>
+        </el-descriptions>
+      </el-col>
+      <el-col :span="13" style="padding-left:40px">
+        <el-descriptions title="财务信息" :column="1">
+          <el-descriptions-item label-class-name="my-label" label="支付方式">{{ form.paymentOption }}</el-descriptions-item>
+          <el-descriptions-item label-class-name="my-label" label="结算方式">{{ form.settleOption }}</el-descriptions-item>
+          <el-descriptions-item label-class-name="my-label" label="预付比例">{{ form.prepaidPercentage }}</el-descriptions-item>
+          <el-descriptions-item label-class-name="my-label" label="账期">{{ form.paymentPeriod }}</el-descriptions-item>
+          <el-descriptions-item label-class-name="my-label" label="结算币种">{{ form.settleCurrency }}</el-descriptions-item>
+          <el-descriptions-item label-class-name="my-label" label="收款信息">{{ form.paymentInfo }}</el-descriptions-item>
+          <el-descriptions-item label-class-name="my-label" label="邮箱">{{ form.contactEmail }}</el-descriptions-item>
+          <el-descriptions-item label-class-name="my-label" label="地址">{{ form.contactAddress }}</el-descriptions-item>
+          <el-descriptions-item label-class-name="my-label" label="提货地址">{{ form.shippingAddress }}</el-descriptions-item>
+        </el-descriptions>
+      </el-col>
+    </el-row>
   </el-dialog>
 </template>
 <script>
@@ -79,7 +47,7 @@ export default {
       open: false,
       // 弹出层标题
       title: "供应商详情",
-      form:{},
+      form: {},
       rules: {
         productLine: [
           { required: true, message: "品线不能为空", trigger: "blur" }
@@ -118,9 +86,9 @@ export default {
 
   },
   methods: {
-    getInfo(id){
+    getInfo (id) {
       this.open = true
-      getDetails(id).then(res=>{
+      getDetails(id).then(res => {
         this.form = res.rows[0]
       })
       console.log(this.form)
@@ -134,5 +102,11 @@ export default {
 }
 </script>
 <style>
+
+.my-label{
+  font-size:14px;
+  /* color:black; */
+  font-weight: 600;
+}
 
 </style>

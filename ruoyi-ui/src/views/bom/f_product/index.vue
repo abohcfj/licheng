@@ -29,41 +29,41 @@
 
     <el-table v-loading="loading" :data="supplierList" @selection-change="handleSelectionChange" ref="filterTable">
       <el-table-column type="selection" width="45" align="center" />
-      <el-table-column label="品线" align="center" prop="productLine">
+      <el-table-column align="center" prop="bom.productLine">
         <!-- TODO:远程搜索数据-->
         <template #header>
           <ParamSearch title="品线" paramKey="productLine" :defaultArray="filterData('productLine')" @search="handleParamsSearch" />
         </template>
       </el-table-column>
-      <el-table-column label="品牌" align="center" prop="brand">
+      <el-table-column label="品牌" align="center" prop="bom.brand">
         <template #header>
           <ParamSearch title="品牌" paramKey="brand" :defaultArray="filterData('brand')" @search="handleParamsSearch" />
         </template>
       </el-table-column>
-      <el-table-column label="国家" align="center" prop="country">
+      <el-table-column label="国家" align="center" prop="bom.country">
         <template #header>
           <ParamSearch title="国家" paramKey="country" :defaultArray="filterData('country')" @search="handleParamsSearch" />
         </template>
       </el-table-column>
-      <el-table-column label="PN" align="center" prop="pn">
+      <el-table-column label="PN" align="center" prop="bom.pn">
         <template #header>
           <ParamSearch title="PN" paramKey="pn" :defaultArray="filterData('pn')" @search="handleParamsSearch" />
         </template>
       </el-table-column>
 
-      <el-table-column label="SKU" align="center" prop="sku">
+      <el-table-column label="SKU" align="center" prop="bom.sku">
         <template #header>
           <ParamSearch title="SKU" paramKey="sku" :defaultArray="filterData('sku')" @search="handleParamsSearch" />
         </template>
       </el-table-column>
-      <el-table-column label="主供应商代码" align="center" prop="code">
+      <el-table-column label="主供应商代码" align="center" prop="bom.supplierCode">
         <template #header>
-          <ParamSearch title="主供应商代码" paramKey="code" :defaultArray="filterData('code')" @search="handleParamsSearch" />
+          <ParamSearch title="主供应商代码" paramKey="supplierCode" :defaultArray="filterData('supplierCode')" @search="handleParamsSearch" />
         </template>
       </el-table-column>
-      <el-table-column label="采购单价" align="center" prop="price" />
-      <el-table-column label="币种" align="center" prop="currency" />
-      <el-table-column label="备注" align="center" prop="note" />
+      <el-table-column label="采购单价" align="center" prop="bom.price" />
+      <el-table-column label="币种" align="center" prop="bom.currency" />
+      <el-table-column label="备注" align="center" prop="bom.note" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" @click="gotoDetails(scope.row)">详情</el-button>

@@ -140,10 +140,10 @@ export default {
           { required: true, message: "品线不能为空", trigger: "blur" }
         ],
         title: [
-          { validator:checkTitle, trigger: "blur" }
+          { required: true,validator:checkTitle, trigger: "blur" }
         ],
         code: [
-          { validator:checkCode, trigger: "blur" }
+          { required: true,validator:checkCode, trigger: "blur" }
         ],
         principal: [
           { required: true, message: "跟进人不能为空", trigger: "blur" }

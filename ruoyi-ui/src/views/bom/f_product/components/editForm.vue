@@ -10,26 +10,26 @@
     <div class="divSpace"><span class="formTitle"> 供应商基本信息</span></div>
     <el-form ref="form" :inline="true" :model="form" :rules="rules">
       <div style="padding-left: 10px">
-        <el-form-item prop="sku">
+        <el-form-item prop="bom.sku">
           <el-input
             size="small"
-            v-model="form.sku"
+            v-model="form.bom.sku"
             placeholder="Sku/录入"
             class="inputline"
           />
         </el-form-item>
-        <el-form-item prop="name">
+        <el-form-item prop="bom.name">
           <el-input
             size="small"
-            v-model="form.name"
+            v-model="form.bom.name"
             placeholder="产品名称"
             class="inputline"
           />
         </el-form-item>
-        <el-form-item prop="pn">
+        <el-form-item prop="bom.pn">
           <el-select
             size="small"
-            v-model="form.pn"
+            v-model="form.bom.pn"
             placeholder="PN"
             clearable
             class="inputline"
@@ -43,10 +43,10 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item prop="productLine">
+        <el-form-item prop="bom.productLine">
           <el-select
             size="small"
-            v-model="form.productLine"
+            v-model="form.bom.productLine"
             placeholder="品线"
             clearable
             class="inputline"
@@ -60,10 +60,10 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item prop="brand">
+        <el-form-item prop="bom.brand">
           <el-select
             size="small"
-            v-model="form.brand"
+            v-model="form.bom.brand"
             placeholder="品牌"
             clearable
             class="inputline"
@@ -77,10 +77,10 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item prop="country">
+        <el-form-item prop="bom.country">
           <el-select
             size="small"
-            v-model="form.country"
+            v-model="form.bom.country"
             placeholder="国家"
             clearable
             style="width: 100px"
@@ -99,7 +99,7 @@
         >
       </div>
       <div
-        v-for="(item, index) in form.suppliers"
+        v-for="(item, index) in form.bomPlans"
         :key="item.label"
         class="divSpace"
       >
@@ -279,7 +279,8 @@ export default {
       title: "",
       // 表单参数
       form: {
-        suppliers: [
+        bom:{},
+        bomPlans: [
           {
             supplierCategory: undefined,
             ratio: undefined,
@@ -330,13 +331,13 @@ export default {
           },
         ],
       };
-      this.form.suppliers.push(data);
+      this.form.bomPlans.push(data);
     },
 
     /** 对某个供应商增加一行数据输入 */
     handleAddRow(index) {
       let data = {
-        id: this.form.suppliers[index].materials.length,
+        id: this.form.bomPlans[index].materials.length,
         materialCategory: undefined,
         materialName: undefined,
         code: undefined,
@@ -345,15 +346,15 @@ export default {
         currentcy: undefined,
         quantity: undefined,
       };
-      this.form.suppliers[index].materials.push(data);
+      this.form.bomPlans[index].materials.push(data);
     },
     /** 对某个供应商删除某行数据 */
     handleDelete(tableIndex, rowIndex) {
-      this.form.suppliers[tableIndex].materials.splice(rowIndex, 1);
+      this.form.bomPlans[tableIndex].materials.splice(rowIndex, 1);
     },
     /** 删除动态的供应商信息 */
     deleteSupplier(index) {
-      this.form.suppliers.splice(index, 1);
+      this.form.bomPlans.splice(index, 1);
     },
     /** 新增按钮操作 */
     handleAdd() {
@@ -383,6 +384,7 @@ export default {
     },
     /** 提交按钮 */
     submitForm: function () {
+      console.log(this.form)
       this.$refs["form"].validate((valid) => {
         if (valid) {
           console.log(this.form);
@@ -410,13 +412,15 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        sku: undefined,
-        name: undefined,
-        pn: undefined,
-        productLine: undefined,
-        brand: undefined,
-        country: undefined,
-        suppliers: [
+        bom:{
+          sku: undefined,
+          name: undefined,
+          pn: undefined,
+          productLine: undefined,
+          brand: undefined,
+          country: undefined,
+        },
+        bomPlans: [
           {
             supplierCategory: undefined,
             ratio: undefined,

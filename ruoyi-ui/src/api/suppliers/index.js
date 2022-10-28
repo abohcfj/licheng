@@ -35,11 +35,6 @@ export function getSupplier(id) {
   })
 }
 
-// 查看供货商详情
-export function getDetails(id) {
-  return getSupplierDetails(id);
-}
-
 // 新增供货商
 export function handleAddSupplier(data) {
   return request({

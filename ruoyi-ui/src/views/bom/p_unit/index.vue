@@ -30,7 +30,6 @@
     <el-table v-loading="loading" :data="supplierList" @selection-change="handleSelectionChange" ref="filterTable">
       <el-table-column type="selection" width="45" align="center" />
       <el-table-column label="品线" align="center" prop="productLine">
-        <!-- TODO:远程搜索数据-->
         <template #header>
           <ParamSearch title="品线" paramKey="productLine" :defaultArray="filterData('productLine')" @search="handleParamsSearch" />
         </template>
@@ -40,32 +39,32 @@
           <ParamSearch title="品牌" paramKey="brand" :defaultArray="filterData('brand')" @search="handleParamsSearch" />
         </template>
       </el-table-column>
-      <el-table-column label="物料类别" align="center" prop="category">
+      <el-table-column align="center" prop="materialCategory">
         <template #header>
-          <ParamSearch title="物料类别" paramKey="category" :defaultArray="filterData('category')" @search="handleParamsSearch" />
+          <ParamSearch title="物料类别" paramKey="materialCategory" :defaultArray="filterData('materialCategory')" @search="handleParamsSearch" />
         </template>
       </el-table-column>
-      <el-table-column label="物料名称" align="center" prop="name">
+      <el-table-column align="center" prop="materialName">
         <template #header>
-          <ParamSearch title="物料名称" paramKey="name" :defaultArray="filterData('name')" @search="handleParamsSearch" />
+          <ParamSearch title="物料名称" paramKey="materialName" :defaultArray="filterData('materialName')" @search="handleParamsSearch" />
         </template>
       </el-table-column>
-      <el-table-column label="物料编码" align="center" prop="code">
+      <el-table-column align="center" prop="materialCode">
         <template #header>
-          <ParamSearch title="物料编码" paramKey="code" :defaultArray="filterData('code')" @search="handleParamsSearch" />
+          <ParamSearch title="物料编码" paramKey="materialCode" :defaultArray="filterData('materialCode')" @search="handleParamsSearch" />
         </template>
       </el-table-column>
-      <el-table-column label="供应商代码" align="center" prop="code">
+      <el-table-column label="供应商代码" align="center" prop="supplier.code">
         <template #header>
           <ParamSearch title="供应商代码" paramKey="code" :defaultArray="filterData('code')" @search="handleParamsSearch" />
         </template>
       </el-table-column>
-      <el-table-column label="供应商名称" align="center" prop="price" />
+      <el-table-column label="供应商名称" align="center" prop="supplier.title" />
       <el-table-column label="单价" align="center" prop="price" />
       <el-table-column label="币种" align="center" prop="currency" />
       <el-table-column label="MOQ" align="center" prop="moq" />
-      <el-table-column label="生产L/T" align="center" prop="lt" />
-      <el-table-column label="整箱数" align="center" prop="number" />
+      <el-table-column label="生产L/T" align="center" prop="productionLeadtime" />
+      <el-table-column label="整箱数" align="center" prop="quantityPerCarton" />
       <el-table-column label="备注" align="center" prop="note" />
 
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -93,7 +92,7 @@ import EditForm from "./components/editForm";
 import ImportForm from "./components/importForm";
 import Audit from "./components/audit";
 import ParamSearch from '@/views/components/paramSearch/index'
-
+import {listUnits} from '@/api/unit/index'
 import {
   getAllLines,
   getAllPersions,
@@ -148,6 +147,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 20,
+        need_review:'0',
         keyword: undefined,
         productLine: undefined,
         brand: undefined,
@@ -183,7 +183,7 @@ export default {
     /** 查询供应商列表 */
     getList () {
       this.loading = true;
-      listBoms(this.queryParams).then((response) => {
+      listUnits(this.queryParams).then((response) => {
         this.supplierList = response.rows;
         this.total = response.total;
         this.loading = false;

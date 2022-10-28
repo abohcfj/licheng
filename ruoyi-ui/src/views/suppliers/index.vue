@@ -143,11 +143,11 @@
       <el-table-column
         label="创建时间"
         align="center"
-        prop="createdDate"
+        prop="createTime"
         width="180"
       >
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createdDate) }}</span>
+          <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -256,6 +256,8 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 20,
+        active:'1',
+        need_review:'0',
         keyword: undefined,
         lineString: undefined,
         name: undefined,
@@ -359,11 +361,11 @@ export default {
     handleExport() {
       //修改为相应导出接口
       this.download(
-        "system/post/export",
+        "/purchase/supplier/export",
         {
           ...this.queryParams,
         },
-        `post_${new Date().getTime()}.xlsx`
+        `供应商_${new Date().getTime()}.xlsx`
       );
     },
   },

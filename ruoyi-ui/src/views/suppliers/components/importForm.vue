@@ -41,15 +41,25 @@ export default {
       formdata.append('file', file)
       axios({
         method: 'POST',
-        url: process.env.VUE_APP_BASE_API + "/web/station/import",
+        url: process.env.VUE_APP_BASE_API + "/purchase/supplier/import",
         headers: {
           'Authorization': 'Bearer ' + getToken(),
           'Content-Type': 'multipart/form-data'
         },
         data: formdata,
       }).then(async (res) => {
-        this.$modal.msgSuccess("导入成功");
-        this.handleFinish()
+        const {code,msg} = res.data
+        if(code === 200){
+          this.$modal.msgSuccess("导入成功");
+          this.handleFinish()
+        }else{
+          console.log(res)
+          this.$notify({
+          title: '提示',
+          message: msg,
+          duration: 0
+        });
+        }
       },err=>{
         this.$modal.msgError("导入失败");
       })
@@ -79,4 +89,8 @@ export default {
   .gap{
     padding-right: 10px;
   }
+
+  .el-notification {white-space:pre-wrap !important; }
+
+
 </style>

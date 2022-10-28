@@ -4,11 +4,11 @@
   <el-dialog
     :title="title"
     :visible.sync="open"
-    width="1400px"
+    width="1600px"
     append-to-body
     style="font-size: 12px"
   >
-    <el-table v-loading="loading" :data="detailsList">
+    <el-table v-loading="loading" :data="detailsList.slice((pageNum-1)*pageSize,pageNum*pageSize)">
       <el-table-column label="品线" align="center" prop="productLine">
         <template slot-scope="scope">
           <!-- 1.先判断备注是不是编辑；2.判断数据中是否有老数据提供；3.比对老数据与新数据是否异同，不一样则展示老数据-->
@@ -85,9 +85,9 @@
           <AuditTableDiff paramKey="paymentInfo" :tableData="scope.row"/>
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="handleRemark">
+      <el-table-column label="备注" align="center" prop="note">
         <template slot-scope="scope">
-          <span style="color: forestgreen">{{ scope.row.handleRemark }}</span>
+          <span style="color: forestgreen">{{ scope.row.note }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -110,6 +110,13 @@
         </template>
       </el-table-column>
     </el-table>
+    <pagination
+      v-show="total > 0"
+      :total="total"
+      :page.sync="pageNum"
+      :limit.sync="pageSize"
+      @pagination="getList"
+    />
   </el-dialog>
 </template>
 <script>
@@ -133,6 +140,9 @@ export default {
       // 弹出层标题
       title: "待审核",
       detailsList: [],
+      pageNum:1,
+      pageSize:10,
+      total:0,
     };
   },
   created() {},
@@ -141,22 +151,39 @@ export default {
       this.open = true;
       this.loading = true;
       listAudit().then((res) => {
-        this.detailsList = res.rows;
-        this.total = res.total;
+        this.detailsList = res.data;
+        this.total = res.data.length;
+        this.loading = false;
+      });
+    },
+    getList(){
+      listAudit().then((res) => {
+        this.detailsList = res.data;
+        this.total = res.data.length;
         this.loading = false;
       });
     },
     handleSubmit(row) {
       const { id } = row;
       // 构造需要的数据进行上传
-      handleAgreeAudit(row).then((res) => {
-        this.$modal.msgSuccess("提交成功");
+      handleAgreeAudit(id).then((res) => {
+        if(res.code === 200){
+          this.$modal.msgSuccess("提交成功");
+        }else{
+          this.$modal.msgError("提交失败")
+        }
+        this.getList()
       });
     },
     handleDelete(row) {
       const { id } = row;
       handleDeleteAudit(id).then((res) => {
-        this.$modal.msgSuccess("删除成功");
+        if(res.code === 200){
+          this.$modal.msgSuccess("提交成功");
+        }else{
+          this.$modal.msgError("提交失败")
+        }
+        this.getList()
       });
     },
     // 取消按钮

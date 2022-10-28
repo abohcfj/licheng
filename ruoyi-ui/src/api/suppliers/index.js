@@ -17,21 +17,22 @@ import {
 } from "@/api/mock";
 // 查询供货商列表
 export function listSuppliers(query) {
-  return getSuppliers();
-  // return request({
-  //     url: '/suppliers/list',
-  //     method: 'get',
-  //     params: query
-  // })
+  const {pageSize,pageNum} = query
+  let params = {pageSize,pageNum}
+  return request({
+      url: '/purchase/supplier/list',
+      method: 'post',
+      data: query,
+      params
+  })
 }
 
 // 查看供货商表单详情
 export function getSupplier(id) {
-  return getSuppliersById(id);
-  // return request({
-  //   url: '/suppliers/' + id,
-  //   method: 'get'
-  // })
+  return request({
+    url: '/purchase/supplier/' + id,
+    method: 'get'
+  })
 }
 
 // 查看供货商详情
@@ -41,61 +42,72 @@ export function getDetails(id) {
 
 // 新增供货商
 export function handleAddSupplier(data) {
-  return addSupplier(data);
-  // return request({
-  //   url: '/suppliers',
-  //   method: 'post',
-  //   data: data
-  // })
+  return request({
+    url: '/purchase/supplier',
+    method: 'post',
+    data: data
+  })
 }
 
 // 更新供货商
 export function handleUpdateSupplier(data) {
-  return updateSupplier(data);
-  // return request({
-  //   url: '/suppliers',
-  //   method: 'put',
-  //   data: data
-  // })
+  return request({
+    url: '/purchase/supplier',
+    method: 'put',
+    data: data
+  })
 }
 
 // 删除供货商
 export function handleDeleteSupplier(id) {
-  return deleteSupplier(id);
-  // return request({
-  //   url: '/suppliers/' + id,
-  //   method: 'delete',
-  // })
+  return request({
+    url: '/purchase/supplier/' + id,
+    method: 'delete',
+  })
 }
 
 // 查询待审核的数据
 export function listAudit() {
-  return auditList();
-  // return request({
-  //   url: '/suppliers/audit',
-  //   method: 'get'
-  // })
+  return request({
+    url: '/purchase/supplier/list/in_review',
+    method: 'get'
+  })
 }
 
 // 审核数据--同意
-export function handleAgreeAudit(data) {
-  return agreeAudit(data);
-  // return request({
-  //   url: '/suppliers/audit/agree',
-  //   method: 'put',
-  //   data
-  // })
+export function handleAgreeAudit(id) {
+  return request({
+    url: '/purchase/supplier/audit/'+id,
+    method: 'get',
+  })
 }
 
 // 审核数据--删除
 export function handleDeleteAudit(id) {
-  return deleteAudit(id);
-  // return request({
-  //   url: '/suppliers/audit/delete/'+id,
-  //   method: 'delete',
-  //   data
-  // })
+  return request({
+    url: '/purchase/supplier/reject/'+id,
+    method: 'get',
+  })
 }
+
+// 判断供应商名称是否可用
+export function checkUsableTitle(query){
+  return request({
+    url:'/purchase/supplier/usable/title',
+    method:'get',
+    params:query
+  })
+}
+
+// 判断供应商代码是否可用
+export function checkUsableCode(query){
+  return request({
+    url:'/purchase/supplier/usable/code',
+    method:'get',
+    params:query
+  })
+}
+
 
 // 获取所有品线
 export function getAllLines() {

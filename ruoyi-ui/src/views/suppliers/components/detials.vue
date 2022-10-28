@@ -32,7 +32,7 @@
   </el-dialog>
 </template>
 <script>
-import { getDetails } from '@/api/suppliers/index'
+import { getSupplier } from '@/api/suppliers/index'
 
 export default {
   name: "Detilas",
@@ -88,10 +88,9 @@ export default {
   methods: {
     getInfo (id) {
       this.open = true
-      getDetails(id).then(res => {
-        this.form = res.rows[0]
+      getSupplier(id).then(res => {
+        this.form = res.data
       })
-      console.log(this.form)
     },
     // 取消按钮
     cancel () {

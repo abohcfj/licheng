@@ -8,25 +8,19 @@
           <el-form-item label="品线" prop="productLine">
             <el-select v-model="form.productLine" placeholder="请选择品线" clearable filterable remote :loading="loading"
               :remote-method="query=>remoteMethod(query,'productLine','productLineArray')">
-              <el-option v-for="item in lineArray" :key="item.label" :label="item.label" :value="item.label" />
+              <el-option v-for="(item,index) in selectArray.productLineArray" :key="index+'productLine'" :label="item" :value="item" />
             </el-select>
           </el-form-item>
           <el-form-item label="供应商" prop="title">
-            <el-select v-model="form.title" placeholder="请选择供应商" clearable filterable remote :loading="loading"
-              :remote-method="query=>remoteMethod(query,'title','titleArray')">
-              <el-option v-for="item in lineArray" :key="item.label" :label="item.label" :value="item.label" />
-            </el-select>
+            <el-input v-model="form.title" placeholder="请输入供应商" />
           </el-form-item>
           <el-form-item label="供应商代码" prop="code">
-            <el-select v-model="form.code" placeholder="请选择供应商" clearable filterable remote :loading="loading"
-              :remote-method="query=>remoteMethod(query,'code','codeArray')">
-              <el-option v-for="item in lineArray" :key="item.label" :label="item.label" :value="item.label" />
-            </el-select>
+            <el-input v-model="form.code" placeholder="请输入供应商代码" />
           </el-form-item>
           <el-form-item label="跟进人" prop="principal">
             <el-select v-model="form.principal" placeholder="请选择跟进人" clearable filterable remote :loading="loading"
               :remote-method="query=>remoteMethod(query,'principal','principalArray')">
-              <el-option v-for="item in persionArray" :key="item.label" :label="item.label" :value="item.label" />
+              <el-option v-for="(item,index) in selectArray.principalArray" :key="index+'principal'" :label="item" :value="item" />
             </el-select>
           </el-form-item>
           <el-form-item label="联系人" prop="contactName">
@@ -83,7 +77,7 @@
   </el-dialog>
 </template>
 <script>
-import { getSupplier, handleAddSupplier, handleUpdateSupplier } from '@/api/suppliers/index'
+import { getSupplier, handleAddSupplier, handleUpdateSupplier, checkUsableTitle, checkUsableCode } from '@/api/suppliers/index'
 
 export default {
   name: "EditForm",
@@ -112,6 +106,27 @@ export default {
     },
   },
   data () {
+
+    let checkTitle = (rule, value, callback) => {
+      if (!value) {
+          return callback(new Error('供应商不能为空'));
+        }
+        checkUsableTitle({title:value}).then(res=>{
+          if(!res.data){
+            return callback(new Error('供应商不可用'));
+          }
+        })
+    }
+
+    let checkCode = (rule, value, callback) => {
+      if (!value) {
+          return callback(new Error('供应商代码不能为空'));
+        }
+        checkUsableCode({code:value}).then(res=>{
+          return callback(new Error('供应商代码不可用'));
+        })
+    }
+
     return {
       loading: false,
       // 是否显示弹出层
@@ -125,10 +140,10 @@ export default {
           { required: true, message: "品线不能为空", trigger: "blur" }
         ],
         title: [
-          { required: true, message: "供应商不能为空", trigger: "blur" }
+          { validator:checkTitle, trigger: "blur" }
         ],
         code: [
-          { required: true, message: "供应商代码不能为空", trigger: "blur" }
+          { validator:checkCode, trigger: "blur" }
         ],
         principal: [
           { required: true, message: "跟进人不能为空", trigger: "blur" }
@@ -191,10 +206,9 @@ export default {
     /** 修改按钮操作 */
     handleUpdate (row) {
       this.reset();
-      const id = row.id || this.ids
+      const id = row.id || 1
       getSupplier(id).then(response => {
         this.form = response.data;
-        console.log(this.form)
         this.open = true;
         this.title = "编辑供应商";
       });

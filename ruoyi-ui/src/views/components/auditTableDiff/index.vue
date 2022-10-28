@@ -28,13 +28,13 @@ export default {
   computed:{
     flag(){
       let value = false
-      const {handleRemark,olddata} = this.tableData
+      const {note,originalItemDetail} = this.tableData
       // 先判断是否为编辑操作
-      if(handleRemark === '编辑'){
+      if(note === '编辑'){
         // 在判断是否存在老数据
-        if(olddata){
+        if(originalItemDetail){
           // 新老数据是否不一致
-          if(olddata[this.paramKey]&&this.tableData[this.paramKey] !== olddata[this.paramKey]){
+          if(originalItemDetail[this.paramKey]&&this.tableData[this.paramKey] !== originalItemDetail[this.paramKey]){
             value = true
           }
         }
@@ -42,8 +42,8 @@ export default {
       return value
     },
     text(){
-      const {olddata} = this.tableData
-      return olddata[this.paramKey]?olddata[this.paramKey]:''
+      const {originalItemDetail} = this.tableData
+      return originalItemDetail[this.paramKey]?originalItemDetail[this.paramKey]:''
     }
   },
   methods:{
